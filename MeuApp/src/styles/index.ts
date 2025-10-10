@@ -25,6 +25,13 @@ export const typography = {
   },
 };
 
+export const buttonVariants = {
+  primary: 'primary',
+  secondary: 'secondary',
+} as const;
+
+export type ButtonVariant = typeof buttonVariants[keyof typeof buttonVariants];
+
 export const commonStyles = StyleSheet.create({
   container: {
     flex: 1,

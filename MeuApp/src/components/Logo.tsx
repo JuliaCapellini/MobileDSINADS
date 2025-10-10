@@ -1,7 +1,12 @@
 import React from 'react';
 import { Image, View } from 'react-native';
 import { loginStyles } from '../styles';
-import { LogoProps } from '../types';
+
+export interface LogoProps {
+  source: any;
+  width?: number;
+  height?: number;
+}
 
 export const Logo: React.FC<LogoProps> = ({
   source,

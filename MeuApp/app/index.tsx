@@ -6,7 +6,7 @@ import { CustomButton, Logo } from '../src/components';
 import { commonStyles, loginStyles } from '../src/styles';
 import { APP_CONFIG, MESSAGES } from '../src/utils';
 
-export default function LoginScreen() {
+export default function HomeScreen() {
   const handleCreateAccount = () => {
     console.log(MESSAGES.CREATE_ACCOUNT_PRESSED);
     router.push('/register');

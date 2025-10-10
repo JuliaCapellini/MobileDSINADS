@@ -1,7 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { loginStyles } from '../styles';
-import { ButtonProps } from '../types';
+import { ButtonVariant, loginStyles } from '../styles';
+
+export interface ButtonProps {
+  title: string;
+  onPress: () => void;
+  variant?: ButtonVariant;
+  disabled?: boolean;
+}
 
 export const CustomButton: React.FC<ButtonProps> = ({
   title,
