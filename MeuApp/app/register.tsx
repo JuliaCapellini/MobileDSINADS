@@ -28,6 +28,7 @@ export default function RegisterScreen() {
       cpf,
       password,
     });
+    router.replace('/dados');
   };
 
   return (

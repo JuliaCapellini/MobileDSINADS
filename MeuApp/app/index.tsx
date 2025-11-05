@@ -9,7 +9,7 @@ import { APP_CONFIG, MESSAGES } from '../src/utils';
 export default function HomeScreen() {
   const handleCreateAccount = () => {
     console.log(MESSAGES.CREATE_ACCOUNT_PRESSED);
-    router.push('/register');
+    router.push('/numberRegister');
   };
 
   const handleLogin = () => {

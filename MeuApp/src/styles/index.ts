@@ -137,3 +137,103 @@ export const loginFormStyles = StyleSheet.create({
     maxWidth: 300,
   },
 });
+
+export const profileStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  header: {
+    backgroundColor: '#617991',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    gap: spacing.md,
+  },
+  avatarContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 30,
+    backgroundColor: '#B0BEC5',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  userInfo: {
+    flex: 1,
+  },
+  userLabel: {
+    fontSize: 20,
+    color: '#3A3636',
+    marginBottom: spacing.xs,
+  },
+  userName: {
+    fontSize: 25,
+    fontWeight: '600',
+    color: '#000000',
+  },
+  userButton: {
+    backgroundColor: '#7995B0',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    gap: spacing.md,
+  },
+  userButtonText: {
+    fontSize: 25,
+    color: colors.black,
+    fontWeight: '500',
+  },
+  contentArea: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  logoutButton: {
+    backgroundColor: colors.background,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.lg,
+    gap: spacing.md,
+    minHeight: 70,
+  },
+  logoutButtonText: {
+    fontSize: 30,
+    color: colors.black,
+    fontWeight: '600',
+  },
+  navigationBar: {
+    flexDirection: 'row',
+    backgroundColor: '#CFD8DC',
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    paddingBottom: 0,
+    marginBottom: 0,
+    marginTop: 0,
+    paddingTop: 0,
+    overflow: 'hidden',
+    elevation: 0,
+    shadowOpacity: 0,
+  },
+  navItem: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: spacing.sm,
+    gap: spacing.xs,
+  },
+  navItemInactive: {
+    backgroundColor: '#617991',
+  },
+  navItemActive: {
+    backgroundColor: '#7995B1',
+  },
+  navItemText: {
+    fontSize: 20,
+    color: colors.black,
+    fontWeight: '500',
+  },
+});
