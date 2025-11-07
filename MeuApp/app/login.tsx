@@ -16,7 +16,7 @@ export default function LoginFormScreen() {
 
   const handleLogin = () => {
     console.log('Login pressionado', { phone, password });
-    router.replace('/dados');
+    router.replace('/screenHome');
   };
 
   return (

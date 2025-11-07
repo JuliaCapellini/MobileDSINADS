@@ -237,3 +237,34 @@ export const profileStyles = StyleSheet.create({
     fontWeight: '500',
   },
 });
+
+export const parkingStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  balanceButton: {
+    position: 'absolute',
+    top: spacing.md,
+    right: spacing.lg,
+    backgroundColor: '#617991',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: spacing.md,
+    gap: spacing.xs,
+    zIndex: 10,
+    ...commonStyles.shadow,
+  },
+  balanceText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: colors.white,
+  },
+  contentArea: {
+    flex: 1,
+    backgroundColor: colors.background,
+    paddingTop: spacing.xxl,
+  },
+});
