@@ -6,7 +6,7 @@ import { BackButton, CustomButton, CustomInput } from '../src/components';
 import { commonStyles, registerStyles } from '../src/styles';
 import { MESSAGES } from '../src/utils';
 
-export default function RegisterScreen() {
+export default function PhoneRegisterScreen() {
     const [country, setCountry] = useState('');
     const [number, setNumber] = useState('');
 
@@ -20,7 +20,7 @@ export default function RegisterScreen() {
             country,
             number
         });
-        router.push('/codeRegister');
+        router.push('/register');
     };
 
     return (
@@ -58,3 +58,4 @@ export default function RegisterScreen() {
         </SafeAreaView>
     );
 }
+

@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { BottomNavigationBar } from '../src/components';
 import { commonStyles, parkingStyles } from '../src/styles';
 
-export default function EstacionarScreen() {
+export default function ParkingScreen() {
     const [balance] = useState('21,56');
 
     const handleAddBalance = () => {
@@ -32,7 +32,7 @@ export default function EstacionarScreen() {
                 </View>
 
                 {/* Barra de navegação */}
-                <BottomNavigationBar activeTab="estacionar" />
+                <BottomNavigationBar activeTab="parking" />
             </View>
         </SafeAreaView>
     );

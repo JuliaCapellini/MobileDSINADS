@@ -1,30 +1,29 @@
-import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { profileStyles } from '../styles';
 
-type ActiveTab = 'estacionar' | 'uso' | 'dados';
+type ActiveTab = 'parking' | 'usage' | 'profile';
 
 interface BottomNavigationBarProps {
     activeTab?: ActiveTab;
 }
 
-export const BottomNavigationBar: React.FC<BottomNavigationBarProps> = ({ activeTab = 'dados' }) => {
-    const handleEstacionar = () => {
-        console.log('Estacionar pressionado');
-        router.push('/screenHome');
+export const BottomNavigationBar: React.FC<BottomNavigationBarProps> = ({ activeTab = 'profile' }) => {
+    const handleParking = () => {
+        console.log('Parking pressionado');
+        router.push('/parking');
     };
 
-    const handleUso = () => {
-        console.log('Uso pressionado');
-        // Adicione a rota correta quando a tela de uso for criada
-        // router.push('/uso');
+    const handleUsage = () => {
+        console.log('Usage pressionado');
+        router.push('/usage');
     };
 
-    const handleDados = () => {
-        console.log('Dados pressionado');
-        router.push('/dados');
+    const handleProfile = () => {
+        console.log('Profile pressionado');
+        router.push('/profile');
     };
 
     return (
@@ -32,11 +31,11 @@ export const BottomNavigationBar: React.FC<BottomNavigationBarProps> = ({ active
             <TouchableOpacity 
                 style={[
                     profileStyles.navItem, 
-                    activeTab === 'estacionar' 
+                    activeTab === 'parking' 
                         ? profileStyles.navItemActive 
                         : profileStyles.navItemInactive
                 ]}
-                onPress={handleEstacionar}
+                onPress={handleParking}
                 activeOpacity={0.7}
             >
                 <Ionicons name="car-outline" size={28} color="#000000" />
@@ -46,11 +45,11 @@ export const BottomNavigationBar: React.FC<BottomNavigationBarProps> = ({ active
             <TouchableOpacity 
                 style={[
                     profileStyles.navItem, 
-                    activeTab === 'uso' 
+                    activeTab === 'usage' 
                         ? profileStyles.navItemActive 
                         : profileStyles.navItemInactive
                 ]}
-                onPress={handleUso}
+                onPress={handleUsage}
                 activeOpacity={0.7}
             >
                 <Ionicons name="grid-outline" size={28} color="#000000" />
@@ -60,11 +59,11 @@ export const BottomNavigationBar: React.FC<BottomNavigationBarProps> = ({ active
             <TouchableOpacity 
                 style={[
                     profileStyles.navItem, 
-                    activeTab === 'dados' 
+                    activeTab === 'profile' 
                         ? profileStyles.navItemActive 
                         : profileStyles.navItemInactive
                 ]}
-                onPress={handleDados}
+                onPress={handleProfile}
                 activeOpacity={0.7}
             >
                 <Ionicons name="person-outline" size={28} color="#000000" />

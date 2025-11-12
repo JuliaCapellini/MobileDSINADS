@@ -25,6 +25,14 @@ export const typography = {
   },
 };
 
+export const iconSizes = {
+  actionButton: 40,
+};
+
+export const iconColors = {
+  actionButton: colors.black,
+};
+
 export const buttonVariants = {
   primary: 'primary',
   secondary: 'secondary',
@@ -268,3 +276,75 @@ export const parkingStyles = StyleSheet.create({
     paddingTop: spacing.xxl,
   },
 });
+
+export const usoStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  header: {
+    backgroundColor: '#CFD8DC',
+    height: 150,
+    width: '100%',
+  },
+  logoContainer: {
+    position: 'absolute',
+    top: 100,
+    alignSelf: 'center',
+    zIndex: 10,
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    backgroundColor: colors.background,
+    borderWidth: 3,
+    borderColor: '#CFD8DC',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    ...commonStyles.shadow,
+  },
+  logo: {
+    width: 110,
+    height: 110,
+    resizeMode: 'contain',
+  },
+  contentArea: {
+    flex: 1,
+    backgroundColor: colors.background,
+    paddingTop: 80,
+    paddingHorizontal: spacing.lg,
+    justifyContent: 'flex-start',
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+    paddingTop: spacing.xl,
+  },
+  actionButton: {
+    flex: 1,
+    minHeight: 120,
+    backgroundColor: '#CFD8DC',
+    borderRadius: spacing.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: spacing.md,
+    gap: spacing.xs,
+    ...commonStyles.shadow,
+  },
+  actionButtonIcon: {
+    marginBottom: spacing.xs,
+  },
+  actionButtonText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.black,
+    textAlign: 'center',
+  },
+});
+
+export const usoButtonConfig = {
+  activeOpacity: 0.7,
+  iconSize: iconSizes.actionButton,
+  iconColor: iconColors.actionButton,
+};

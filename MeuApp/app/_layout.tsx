@@ -9,10 +9,10 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="register" options={{ headerShown: false }} />
-        <Stack.Screen name="numberRegister" options={{ headerShown: false }} />
-        <Stack.Screen name="codeRegister" options={{ headerShown: false }} />
-        <Stack.Screen name="screenHome" options={{ headerShown: false }} />
-        <Stack.Screen name="dados" options={{ headerShown: false }} />
+        <Stack.Screen name="phoneRegister" options={{ headerShown: false }} />
+        <Stack.Screen name="parking" options={{ headerShown: false }} />
+        <Stack.Screen name="usage" options={{ headerShown: false }} />
+        <Stack.Screen name="profile" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="light" />
     </>

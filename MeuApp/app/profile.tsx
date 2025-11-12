@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { BottomNavigationBar } from '../src/components';
 import { commonStyles, profileStyles } from '../src/styles';
 
-export default function DadosScreen() {
+export default function ProfileScreen() {
     const userName = 'Nome do Usuário';
 
     const handleUserButton = () => {
@@ -53,7 +53,7 @@ export default function DadosScreen() {
                     <Text style={profileStyles.logoutButtonText}>Sair</Text>
                 </TouchableOpacity>
 
-                <BottomNavigationBar activeTab="dados" />
+                <BottomNavigationBar activeTab="profile" />
             </View>
         </SafeAreaView>
     );
