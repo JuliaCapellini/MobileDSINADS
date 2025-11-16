@@ -20,6 +20,8 @@ declare global {
     google: any;
     initMap: () => void;
   }
+  var window: any;
+  var document: any;
 }
 
 export const ParkingMapWeb: React.FC<ParkingMapWebProps> = ({
@@ -46,17 +48,12 @@ export const ParkingMapWeb: React.FC<ParkingMapWebProps> = ({
       center: defaultCenter,
       zoom: MAP_CONFIG.DEFAULT_ZOOM,
       mapTypeId: window.google.maps.MapTypeId.ROADMAP,
-      mapTypeControl: false, // Desabilita o controle de tipo de mapa (Mapa/Satélite)
-      fullscreenControl: false, // Desabilita o controle de tela cheia
+      mapTypeControl: false,
+      fullscreenControl: false,
     });
 
     mapInstanceRef.current = map;
     setMapLoaded(true);
-
-    // DrawingManager removido - delimitação será feita pelo código
-
-
-    // Renderizar áreas iniciais
     initialAreas.forEach((area) => {
       if (area.type === 'polygon' && area.coordinates.length > 0) {
         const polygon = new window.google.maps.Polygon({
@@ -86,27 +83,22 @@ export const ParkingMapWeb: React.FC<ParkingMapWebProps> = ({
     });
   }, [initialAreas, onAreaSelected]);
 
-  // Carregar Google Maps API
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // Verificar se já está carregado
     if (window.google && window.google.maps) {
-      // Aguardar um pouco para garantir que o elemento está no DOM
       setTimeout(() => {
         initializeMap();
       }, 100);
       return;
     }
 
-    // Carregar script do Google Maps
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=${MAP_CONFIG.GOOGLE_MAPS_API_KEY}&callback=initMap`;
     script.async = true;
     script.defer = true;
 
     window.initMap = () => {
-      // Aguardar um pouco para garantir que o elemento está no DOM
       setTimeout(() => {
         initializeMap();
       }, 100);
@@ -121,8 +113,6 @@ export const ParkingMapWeb: React.FC<ParkingMapWebProps> = ({
   }, [initializeMap]);
 
 
-
-  // Renderizar elemento nativo para web
   const MapElement = Platform.OS === 'web' 
     ? React.createElement('div', { 
         ref: mapRef, 

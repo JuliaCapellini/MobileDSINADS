@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MAP_CONFIG } from '../utils/constants';
 
-// Importação condicional do react-native-maps (não funciona na web)
 let MapView: any;
 let Marker: any;
 let Polygon: any;
@@ -38,8 +37,8 @@ export const ParkingMap: React.FC<ParkingMapProps> = ({
   onAreaSelected, 
   initialAreas = [] 
 }) => {
-  const mapRef = useRef<MapView>(null);
-  const [region, setRegion] = useState<Region>({
+  const mapRef = useRef<any>(null);
+  const [region, setRegion] = useState<any>({
     latitude: MAP_CONFIG.DEFAULT_LATITUDE,
     longitude: MAP_CONFIG.DEFAULT_LONGITUDE,
     latitudeDelta: 0.01,
@@ -49,14 +48,11 @@ export const ParkingMap: React.FC<ParkingMapProps> = ({
   const [areas, setAreas] = useState<ParkingArea[]>(initialAreas);
 
 
-
-  // Se estiver na web, usar componente web
   if (Platform.OS === 'web') {
     const ParkingMapWeb = require('./ParkingMapWeb').ParkingMapWeb;
     return <ParkingMapWeb onAreaSelected={onAreaSelected} initialAreas={initialAreas} />;
   }
 
-  // Verificar se MapView está disponível (mobile)
   if (!MapView) {
     return (
       <View style={styles.container}>
@@ -82,7 +78,6 @@ export const ParkingMap: React.FC<ParkingMapProps> = ({
         toolbarEnabled={false}
         mapType="standard"
       >
-        {/* Áreas desenhadas */}
         {areas.map((area) => {
           if (area.type === 'polygon' && area.coordinates.length > 0) {
             return (

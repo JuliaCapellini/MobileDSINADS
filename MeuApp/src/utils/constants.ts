@@ -1,6 +1,5 @@
 export const APP_CONFIG = {
   LOGO_URL: require('../../assets/images/logos/DSIN.png'),
-  
   LOGO_WIDTH: 360,
   LOGO_HEIGHT: 160,
 } as const;
