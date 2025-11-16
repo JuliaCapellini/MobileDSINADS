@@ -348,3 +348,40 @@ export const usoButtonConfig = {
   iconSize: iconSizes.actionButton,
   iconColor: iconColors.actionButton,
 };
+
+export const vehicleStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xxl,
+  },
+
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: colors.white,
+    marginBottom: spacing.xl,
+    textAlign: 'center',
+  },
+
+  formContainer: {
+    width: '100%',
+    maxWidth: 300,
+    marginTop: spacing.xl,
+  },
+
+  saveButton: {
+    backgroundColor: '#617991',
+    paddingVertical: spacing.md,
+    borderRadius: spacing.md,
+    alignItems: 'center',
+    ...commonStyles.shadow,
+  },
+
+  saveButtonText: {
+    fontSize: typography.button.fontSize,
+    fontWeight: typography.button.fontWeight,
+    color: colors.white,
+  },
+});

@@ -4,16 +4,12 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BottomNavigationBar } from '../src/components';
 import { commonStyles, usoButtonConfig, usoStyles } from '../src/styles';
+import { router } from 'expo-router';
 
 export default function UsageScreen() {
   const handleVeiculos = () => {
     console.log('Veículos pressionado');
-    // router.push('/veiculos'); // Será implementado futuramente
-  };
-
-  const handleHistoricoPagamento = () => {
-    console.log('Histórico de pagamento pressionado');
-    // router.push('/historicoPagamento'); // Será implementado futuramente
+      router.push('/vehicle'); // Será implementado futuramente
   };
 
   const handleMeuSaldo = () => {
@@ -32,11 +28,8 @@ export default function UsageScreen() {
             style={usoStyles.logo}
           />
         </View>
-
-        {/* Área de conteúdo com botões */}
         <View style={usoStyles.contentArea}>
           <View style={usoStyles.buttonsContainer}>
-            {/* Botão Veículos */}
             <TouchableOpacity
               style={usoStyles.actionButton}
               onPress={handleVeiculos}
@@ -50,25 +43,6 @@ export default function UsageScreen() {
               />
               <Text style={usoStyles.actionButtonText}>Veículos</Text>
             </TouchableOpacity>
-
-            {/* Botão Histórico de pagamentos */}
-            <TouchableOpacity
-              style={usoStyles.actionButton}
-              onPress={handleHistoricoPagamento}
-              activeOpacity={usoButtonConfig.activeOpacity}
-            >
-              <Ionicons
-                name="receipt-outline"
-                size={usoButtonConfig.iconSize}
-                color={usoButtonConfig.iconColor}
-                style={usoStyles.actionButtonIcon}
-              />
-              <Text style={usoStyles.actionButtonText}>
-                Histórico de pagamentos
-              </Text>
-            </TouchableOpacity>
-
-            {/* Botão Meu Saldo */}
             <TouchableOpacity
               style={usoStyles.actionButton}
               onPress={handleMeuSaldo}
@@ -85,7 +59,6 @@ export default function UsageScreen() {
           </View>
         </View>
 
-        {/* Barra de navegação */}
         <BottomNavigationBar activeTab="usage" />
       </View>
     </SafeAreaView>
