@@ -273,7 +273,6 @@ export const parkingStyles = StyleSheet.create({
   contentArea: {
     flex: 1,
     backgroundColor: colors.background,
-    paddingTop: spacing.xxl,
   },
 });
 

@@ -9,7 +9,14 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyB696_kZP-h-JD91q6ceLTKqvM1gAeWFlU"
+      },
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Este app precisa da sua localização para mostrar estacionamentos próximos.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Este app precisa da sua localização para mostrar estacionamentos próximos."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +26,16 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyB696_kZP-h-JD91q6ceLTKqvM1gAeWFlU"
+        }
+      },
+      "ermissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "output": "static",
@@ -37,6 +53,12 @@
           "dark": {
             "backgroundColor": "#000000"
           }
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Este app precisa da sua localização para mostrar estacionamentos próximos."
         }
       ]
     ],
