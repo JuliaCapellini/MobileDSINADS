@@ -385,3 +385,40 @@ export const vehicleStyles = StyleSheet.create({
     color: colors.white,
   },
 });
+
+export const userProfileStyles = StyleSheet.create({
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xxl,
+    paddingBottom: spacing.xl,
+  },
+
+  title: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: colors.white,
+    textAlign: "center",
+    marginBottom: spacing.xxl,
+  },
+
+  fieldContainer: {
+    marginBottom: spacing.xl,
+    padding: spacing.md,
+    backgroundColor: "#617991",
+    borderRadius: spacing.md,
+  },
+
+  label: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: colors.black,
+    marginBottom: spacing.xs,
+  },
+
+  value: {
+    fontSize: 20,
+    fontWeight: "500",
+    color: colors.white,
+  },
+});

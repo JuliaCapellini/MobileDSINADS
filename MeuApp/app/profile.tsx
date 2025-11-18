@@ -10,7 +10,8 @@ export default function ProfileScreen() {
     const userName = 'Nome do Usuário';
 
     const handleUserButton = () => {
-        console.log('Botão Usuário pressionado');
+        console.log('Usuario pressionado');
+        router.push('/userProfile');
     };
 
     const handleLogout = () => {
