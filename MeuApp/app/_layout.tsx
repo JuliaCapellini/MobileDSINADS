@@ -15,6 +15,7 @@ export default function RootLayout() {
         <Stack.Screen name="profile" options={{ headerShown: false }} />
         <Stack.Screen name="vehicle" options={{ headerShown: false }} />
         <Stack.Screen name="userProfile" options={{ headerShown: false }} />
+        <Stack.Screen name="balance" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="light" />
     </>

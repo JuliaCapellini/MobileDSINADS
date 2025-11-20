@@ -9,12 +9,12 @@ import { router } from 'expo-router';
 export default function UsageScreen() {
   const handleVeiculos = () => {
     console.log('Veículos pressionado');
-      router.push('/vehicle'); // Será implementado futuramente
+    router.push('/vehicle');
   };
 
   const handleMeuSaldo = () => {
     console.log('Meu Saldo pressionado');
-    // router.push('/meuSaldo'); // Será implementado futuramente
+    router.push('/balance');
   };
 
   return (
@@ -64,4 +64,3 @@ export default function UsageScreen() {
     </SafeAreaView>
   );
 }
-

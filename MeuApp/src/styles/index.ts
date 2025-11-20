@@ -273,7 +273,6 @@ export const parkingStyles = StyleSheet.create({
   contentArea: {
     flex: 1,
     backgroundColor: colors.background,
-    paddingTop: spacing.xxl,
   },
 });
 
@@ -421,4 +420,64 @@ export const userProfileStyles = StyleSheet.create({
     fontWeight: "500",
     color: colors.white,
   },
+});
+export const balanceStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xxl,
+  },
+
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: colors.white,
+    marginBottom: spacing.xl,
+    textAlign: 'center',
+  },
+
+  balanceDisplayContainer: {
+    backgroundColor: '#CFD8DC',
+    padding: spacing.xl,
+    borderRadius: spacing.md,
+    marginBottom: spacing.xxl,
+    alignItems: 'center',
+    ...commonStyles.shadow,
+  },
+
+  balanceLabel: {
+    fontSize: 20,
+    color: colors.black,
+    marginBottom: spacing.sm,
+    fontWeight: '600',
+  },
+
+  balanceValue: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: colors.yellow,
+  },
+
+
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: colors.white,
+    marginBottom: spacing.lg,
+    textAlign: 'center',
+    marginTop: spacing.md,
+  },
+
+
+  formContainer: {
+    width: '100%',
+    maxWidth: 300,
+    alignSelf: 'center',
+    marginBottom: spacing.xl,
+  },
+
+
+    saveButton: vehicleStyles.saveButton,
+    saveButtonText: vehicleStyles.saveButtonText,
 });
