@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
-import { MAP_CONFIG } from '../utils/constants';
+import { View, Text, Platform, ActivityIndicator } from 'react-native';
+import { MAP_CONFIG, getCurrentLocationWeb } from '../utils/constants';
+import { parkingMapWebStyles } from '../styles';
 
 export interface ParkingArea {
   id: string;
@@ -31,6 +32,7 @@ export const ParkingMap: React.FC<ParkingMapWebProps> = ({
   const mapRef = useRef<any>(null);
   const mapInstanceRef = useRef<any>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
   const [areas, setAreas] = useState<ParkingArea[]>(initialAreas);
   const polygonsRef = useRef<any[]>([]);
   const circlesRef = useRef<any[]>([]);
@@ -39,48 +41,58 @@ export const ParkingMap: React.FC<ParkingMapWebProps> = ({
     const mapElement = mapRef.current as any;
     if (!mapElement || !window.google) return;
 
-    const defaultCenter = {
-      lat: MAP_CONFIG.DEFAULT_LATITUDE,
-      lng: MAP_CONFIG.DEFAULT_LONGITUDE,
-    };
+    getCurrentLocationWeb()
+      .then((center) => {
+      console.log('Localização recebida no componente web:', center);
+      
+      const map = new window.google.maps.Map(mapElement, {
+        center: center,
+        zoom: MAP_CONFIG.DEFAULT_ZOOM,
+        mapTypeId: window.google.maps.MapTypeId.ROADMAP,
+        mapTypeControl: false,
+        fullscreenControl: false,
+      });
 
-    const map = new window.google.maps.Map(mapElement, {
-      center: defaultCenter,
-      zoom: MAP_CONFIG.DEFAULT_ZOOM,
-      mapTypeId: window.google.maps.MapTypeId.ROADMAP,
-      mapTypeControl: false,
-      fullscreenControl: false,
-    });
+      new window.google.maps.Marker({
+        position: center,
+        map: map,
+        title: 'Sua localização',
+      });
 
-    mapInstanceRef.current = map;
-    setMapLoaded(true);
-    initialAreas.forEach((area) => {
-      if (area.type === 'polygon' && area.coordinates.length > 0) {
-        const polygon = new window.google.maps.Polygon({
-          paths: area.coordinates.map((coord) => ({
-            lat: coord.latitude,
-            lng: coord.longitude,
-          })),
-          fillColor: '#FF0000',
-          fillOpacity: 0.2,
-          strokeColor: '#FF0000',
-          strokeWeight: 2,
-        });
-        polygon.setMap(map);
-        polygonsRef.current.push(polygon);
-      } else if (area.type === 'circle' && area.center) {
-        const circle = new window.google.maps.Circle({
-          center: { lat: area.center.latitude, lng: area.center.longitude },
-          radius: area.radius || 100,
-          fillColor: '#FF0000',
-          fillOpacity: 0.2,
-          strokeColor: '#FF0000',
-          strokeWeight: 2,
-        });
-        circle.setMap(map);
-        circlesRef.current.push(circle);
-      }
-    });
+      mapInstanceRef.current = map;
+      setMapLoaded(true);
+      initialAreas.forEach((area) => {
+        if (area.type === 'polygon' && area.coordinates.length > 0) {
+          const polygon = new window.google.maps.Polygon({
+            paths: area.coordinates.map((coord) => ({
+              lat: coord.latitude,
+              lng: coord.longitude,
+            })),
+            fillColor: '#FF0000',
+            fillOpacity: 0.2,
+            strokeColor: '#FF0000',
+            strokeWeight: 2,
+          });
+          polygon.setMap(map);
+          polygonsRef.current.push(polygon);
+        } else if (area.type === 'circle' && area.center) {
+          const circle = new window.google.maps.Circle({
+            center: { lat: area.center.latitude, lng: area.center.longitude },
+            radius: area.radius || 100,
+            fillColor: '#FF0000',
+            fillOpacity: 0.2,
+            strokeColor: '#FF0000',
+            strokeWeight: 2,
+          });
+          circle.setMap(map);
+          circlesRef.current.push(circle);
+        }
+      });
+    })
+      .catch((error) => {
+        setLocationError(error instanceof Error ? error.message : 'Erro ao obter localização');
+        setMapLoaded(true);
+      });
   }, [initialAreas, onAreaSelected]);
 
   useEffect(() => {
@@ -118,42 +130,28 @@ export const ParkingMap: React.FC<ParkingMapWebProps> = ({
         ref: mapRef, 
         style: { width: '100%', height: '100%' } 
       })
-    : <View ref={mapRef} style={styles.map} />;
+    : <View ref={mapRef} style={parkingMapWebStyles.map} />;
+
+  if (locationError) {
+    return (
+      <View style={[parkingMapWebStyles.container, parkingMapWebStyles.centerContent]}>
+        <Text style={parkingMapWebStyles.errorText}>{locationError}</Text>
+        <Text style={parkingMapWebStyles.errorSubtext}>Por favor, verifique as permissões de localização</Text>
+      </View>
+    );
+  }
 
   return (
-    <View style={styles.container}>
+    <View style={parkingMapWebStyles.container}>
       {MapElement}
       
       {!mapLoaded && (
-        <View style={styles.loadingContainer}>
-          <Text style={styles.loadingText}>Carregando mapa...</Text>
+        <View style={parkingMapWebStyles.loadingContainer}>
+          <ActivityIndicator size="large" color="#FFFFFF" />
+          <Text style={parkingMapWebStyles.loadingText}>Obtendo sua localização...</Text>
         </View>
       )}
 
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: 'relative',
-  },
-  map: {
-    width: '100%',
-    height: '100%',
-  },
-  loadingContainer: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: [{ translateX: -50 }, { translateY: -50 }],
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    padding: 20,
-    borderRadius: 10,
-  },
-  loadingText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-  },
-});

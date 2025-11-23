@@ -481,3 +481,79 @@ export const balanceStyles = StyleSheet.create({
     saveButton: vehicleStyles.saveButton,
     saveButtonText: vehicleStyles.saveButtonText,
 });
+
+export const parkingMapWebStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: 'relative',
+  },
+  centerContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: spacing.md,
+    padding: spacing.lg,
+  },
+  map: {
+    width: '100%',
+    height: '100%',
+  },
+  loadingContainer: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: -50 }, { translateY: -50 }],
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    padding: spacing.lg,
+    borderRadius: spacing.sm,
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  loadingText: {
+    color: colors.white,
+    fontSize: 16,
+  },
+  errorText: {
+    color: '#F44336',
+    fontSize: 18,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  errorSubtext: {
+    color: '#E0E0E0',
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: spacing.sm,
+  },
+});
+
+export const parkingMapNativeStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  centerContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: spacing.md,
+    padding: spacing.lg,
+  },
+  loadingText: {
+    color: colors.white,
+    fontSize: 16,
+    marginTop: spacing.sm,
+  },
+  errorText: {
+    color: '#F44336',
+    fontSize: 18,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  errorSubtext: {
+    color: '#E0E0E0',
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: spacing.sm,
+  },
+  map: {
+    flex: 1,
+  },
+});

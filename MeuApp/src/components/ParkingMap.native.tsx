@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { MAP_CONFIG } from '../utils/constants';
-import MapView, { Marker, Polygon, Circle, PROVIDER_GOOGLE } from 'react-native-maps';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
+import { getCurrentLocationNative } from '../utils/constants';
+import MapView, { Polygon, Circle, PROVIDER_GOOGLE } from 'react-native-maps';
+import { parkingMapNativeStyles } from '../styles';
 
 export interface ParkingArea {
   id: string;
@@ -12,37 +13,64 @@ export interface ParkingArea {
 }
 
 interface ParkingMapProps {
-  onAreaSelected?: (area: ParkingArea) => void;
   initialAreas?: ParkingArea[];
 }
 
-export const ParkingMap: React.FC<ParkingMapProps> = ({ 
-  onAreaSelected, 
-  initialAreas = [] 
-}) => {
-  const mapRef = useRef<any>(null);
+export const ParkingMap: React.FC<ParkingMapProps> = ({ initialAreas = [] }) => {
+  const [region, setRegion] = useState<{
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const [region] = useState({
-    latitude: MAP_CONFIG.DEFAULT_LATITUDE,
-    longitude: MAP_CONFIG.DEFAULT_LONGITUDE,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
-  });
+  useEffect(() => {
+    (async () => {
+      try {
+        const location = await getCurrentLocationNative();
+        setRegion({
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        });
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Erro ao obter localização');
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
-  const [areas] = useState<ParkingArea[]>(initialAreas);
+  if (loading) {
+    return (
+      <View style={[parkingMapNativeStyles.container, parkingMapNativeStyles.centerContent]}>
+        <ActivityIndicator size="large" color="#FFFFFF" />
+        <Text style={parkingMapNativeStyles.loadingText}>Obtendo sua localização...</Text>
+      </View>
+    );
+  }
+
+  if (error || !region) {
+    return (
+      <View style={[parkingMapNativeStyles.container, parkingMapNativeStyles.centerContent]}>
+        <Text style={parkingMapNativeStyles.errorText}>{error || 'Não foi possível obter a localização'}</Text>
+      </View>
+    );
+  }
 
   return (
-    <View style={styles.container}>
+    <View style={parkingMapNativeStyles.container}>
       <MapView
-        ref={mapRef}
         provider={PROVIDER_GOOGLE}
-        style={styles.map}
+        style={parkingMapNativeStyles.map}
         initialRegion={region}
-        showsUserLocation={false}
-        showsMyLocationButton={false}
+        showsUserLocation={true}
         toolbarEnabled={false}
       >
-        {areas.map((area) => {
+        {initialAreas.map((area) => {
           if (area.type === 'polygon') {
             return (
               <Polygon
@@ -54,7 +82,6 @@ export const ParkingMap: React.FC<ParkingMapProps> = ({
               />
             );
           }
-
           if (area.type === 'circle' && area.center) {
             return (
               <Circle
@@ -67,73 +94,9 @@ export const ParkingMap: React.FC<ParkingMapProps> = ({
               />
             );
           }
-
           return null;
         })}
       </MapView>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  map: {
-    flex: 1,
-  },
-  webMapContainer: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#38454D',
-    padding: 20,
-  },
-  webMessageContainer: {
-    maxWidth: 400,
-    alignItems: 'center',
-    gap: 16,
-  },
-  webTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    textAlign: 'center',
-  },
-  webMessageText: {
-    fontSize: 14,
-    color: '#E0E0E0',
-    textAlign: 'center',
-    lineHeight: 20,
-  },
-  webLinkButton: {
-    marginTop: 8,
-    backgroundColor: '#617991',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 8,
-    gap: 8,
-  },
-  webLinkButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFFFFF',
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    gap: 16,
-  },
-  errorText: {
-    fontSize: 16,
-    color: '#F44336',
-    textAlign: 'center',
-    fontWeight: '600',
-  },
-});
