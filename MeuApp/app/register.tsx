@@ -1,34 +1,52 @@
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Text, View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { Text, View, ScrollView, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton, CustomButton, CustomInput } from '../src/components';
 import { commonStyles, registerStyles } from '../src/styles';
 import { MESSAGES } from '../src/utils';
+import { authService } from '../src/services/authService';
 
 export default function RegisterScreen() {
-  const [fullName, setFullName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [birthDate, setBirthDate] = useState('');
-  const [cpf, setCpf] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleBack = () => {
     console.log('Voltar pressionado');
     router.back();
   };
 
-  const handleContinue = () => {
-    console.log('Continuar pressionado', {
-      fullName,
-      email,
-      phone,
-      birthDate,
-      cpf,
-      password,
-    });
-    router.replace('/parking');
+  const handleContinue = async () => {
+    if (!firstName || !lastName || !email || !phone || !password) {
+      Alert.alert("Erro", "Por favor, preencha todos os campos.");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+
+      const response = await authService.register({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone,
+        password: password,
+      });
+
+      if (response.token) {
+        await authService.saveToken(response.token);
+        router.replace('/parking');
+      }
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || "Náo foi possível completar o registro.";
+      Alert.alert("Erro no registro", errorMessage)
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -50,10 +68,18 @@ export default function RegisterScreen() {
             
             <View style={registerStyles.formContainer}>
               <CustomInput
-                label="Nome Completo"
-                placeholder="Digite seu nome completo"
-                value={fullName}
-                onChangeText={setFullName}
+                label="Primeiro Nome"
+                placeholder="Digite seu primeiro nome"
+                value={firstName}
+                onChangeText={setFirstName}
+                keyboardType="default"
+              />
+
+              <CustomInput
+                label="Último Nome"
+                placeholder="Digite seu último nome"
+                value={lastName}
+                onChangeText={setLastName}
                 keyboardType="default"
               />
               
@@ -71,22 +97,6 @@ export default function RegisterScreen() {
                 value={phone}
                 onChangeText={setPhone}
                 keyboardType="phone-pad"
-              />
-              
-              <CustomInput
-                label="Data de Nascimento"
-                placeholder="DD/MM/AAAA"
-                value={birthDate}
-                onChangeText={setBirthDate}
-                keyboardType="number-pad"
-              />
-              
-              <CustomInput
-                label="CPF"
-                placeholder="Digite seu CPF"
-                value={cpf}
-                onChangeText={setCpf}
-                keyboardType="number-pad"
               />
               
               <CustomInput

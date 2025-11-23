@@ -32,3 +32,11 @@ export interface AuthResponse {
         email: string;
     };
 }
+
+export interface RegisterDriverDTO {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    password: string;
+}

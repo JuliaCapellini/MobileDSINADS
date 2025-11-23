@@ -1,12 +1,14 @@
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton, CustomButton, CustomInput } from '../src/components';
 import { commonStyles, loginFormStyles } from '../src/styles';
+import { authService } from '../src/services/authService';
+import { replace } from 'expo-router/build/global-state/routing';
 
 export default function LoginFormScreen() {
-  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleBack = () => {
@@ -14,9 +16,18 @@ export default function LoginFormScreen() {
     router.back();
   };
 
-  const handleLogin = () => {
-    console.log('Login pressionado', { phone, password });
+  const handleLogin = async () => {
+    try {
+      const response = await authService.login({
+        email: email,
+        password: password
+      });
+    await authService.saveToken(response.token);
+
     router.replace('/parking');
+    } catch (error) {
+      Alert.alert("Erro", "Login falhou. Verifique suas credenciais.");
+    }
   };
 
   return (
@@ -28,11 +39,11 @@ export default function LoginFormScreen() {
         
         <View style={loginFormStyles.formContainer}>
           <CustomInput
-            label="Celular"
-            placeholder="Digite seu celular"
-            value={phone}
-            onChangeText={setPhone}
-            keyboardType="phone-pad"
+            label="Email"
+            placeholder="Digite seu email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
           />
           
           <CustomInput
