@@ -17,8 +17,22 @@ export const authService = {
         await AsyncStorage.setItem('@parquimetro_token', token);
     },
 
+    async getToken(): Promise<string | null> {
+        return await AsyncStorage.getItem('@parquimetro_token');
+    },
+
+    async saveUser(user: AuthResponse['user']) {
+        await AsyncStorage.setItem('@parquimetro_user', JSON.stringify(user));
+    },
+
+    async getUser(): Promise<AuthResponse['user'] | null> {
+        const userString = await AsyncStorage.getItem('@parquimetro_user');
+        return userString ? JSON.parse(userString) : null;
+    },
+
     async logout() {
         await AsyncStorage.removeItem('@parquimetro_token');
+        await AsyncStorage.removeItem('@parquimetro_user');
     }
 
 };

@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { ButtonVariant, loginStyles } from '../styles';
+import { Text, TouchableOpacity } from 'react-native';
+import { ButtonVariant, buttonStyles } from '../styles';
 
 export interface ButtonProps {
   title: string;
@@ -15,24 +15,31 @@ export const CustomButton: React.FC<ButtonProps> = ({
   variant = 'primary',
   disabled = false,
 }) => {
-  const buttonStyle = variant === 'primary' 
-    ? [loginStyles.button, loginStyles.primaryButton]
-    : [loginStyles.button, loginStyles.secondaryButton];
+  const getButtonStyle = () => {
+    const baseStyle = [buttonStyles.base];
+    if (variant === 'primary') {
+      baseStyle.push(buttonStyles.primary);
+    } else {
+      baseStyle.push(buttonStyles.secondary);
+    }
+    if (disabled) {
+      baseStyle.push(buttonStyles.disabled);
+    }
+    return baseStyle;
+  };
+
+  const getTextStyle = () => {
+    return variant === 'primary' ? buttonStyles.text : buttonStyles.text;
+  };
 
   return (
     <TouchableOpacity 
-      style={[buttonStyle, disabled && styles.disabled]} 
+      style={getButtonStyle()} 
       onPress={onPress}
       activeOpacity={0.8}
       disabled={disabled}
     >
-      <Text style={loginStyles.buttonText}>{title}</Text>
+      <Text style={getTextStyle()}>{title}</Text>
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  disabled: {
-    opacity: 0.5,
-  },
-});

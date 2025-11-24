@@ -1,61 +1,58 @@
-import { router } from "expo-router";
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { BackButton, CustomButton, CustomInput } from "../src/components";
+import { router } from 'expo-router';
+import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { BackButton, CustomInput } from '../src/components';
 import { commonStyles, vehicleStyles } from '../src/styles';
-import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useVehicle } from '../src/hooks/useVehicle';
 
-export default function Vehicle() {
-    const [nome, setNome] = useState("");
-    const [placa, setPlaca] = useState("");
-    const [tipo, setTipo] = useState("");
+export default function VehicleScreen() {
+  const { formData, updateField, save } = useVehicle();
 
-    const handleBack = () => {
-        console.log('Voltar pressionado')
-        router.back()
-    }
+  const handleBack = (): void => {
+    router.back();
+  };
 
-    function salvar() {
-        console.log({ nome, placa, tipo });
-        //alert("Veículo cadastrado com sucesso!");
-    }
+  return (
+    <SafeAreaView style={commonStyles.container}>
+      <BackButton onPress={handleBack} />
 
-    return (
-        <SafeAreaView style={commonStyles.container}>
-            <BackButton onPress={handleBack} />
+      <View style={vehicleStyles.container}>
+        <Text style={vehicleStyles.title}>Cadastrar Veículo</Text>
 
-            <View style={vehicleStyles.container}>
-                <Text style={vehicleStyles.title}>Cadastrar Veículo</Text>
+        <View style={vehicleStyles.formContainer}>
+          <CustomInput
+            label="Nome"
+            placeholder="Digite o nome do veículo"
+            value={formData.nome}
+            onChangeText={(value) => updateField('nome', value)}
+            keyboardType="default"
+          />
 
-            <CustomInput
-                label="Nome"
-                placeholder="digite o nome do veiculo"
-                value={nome}
-                onChangeText={setNome}
-                keyboardType="default"
-            />
+          <CustomInput
+            label="Placa"
+            placeholder="Digite a placa do veículo"
+            value={formData.placa}
+            onChangeText={(value) => updateField('placa', value)}
+            keyboardType="default"
+          />
 
-            <CustomInput
-                label="Placa"
-                placeholder="digite a placa do veiculo"
-                value={placa}
-                onChangeText={setPlaca}
-                keyboardType="default"
-            />
+          <CustomInput
+            label="Tipo"
+            placeholder="Digite o tipo do veículo"
+            value={formData.tipo}
+            onChangeText={(value) => updateField('tipo', value)}
+            keyboardType="default"
+          />
 
-            <CustomInput
-                label="Tipo"
-                placeholder="digite o tipo do veiculo"
-                value={tipo}
-                onChangeText={setTipo}
-                keyboardType="default"
-            />
-
-            <TouchableOpacity style={vehicleStyles.saveButton} onPress={salvar}>
-                <Text style={vehicleStyles.saveButtonText}>Salvar Veículo</Text>
-            </TouchableOpacity>
+          <TouchableOpacity 
+            style={vehicleStyles.saveButton} 
+            onPress={save}
+          >
+            <Text style={vehicleStyles.saveButtonText}>Salvar Veículo</Text>
+          </TouchableOpacity>
         </View>
-        </SafeAreaView>
-    );
+      </View>
+    </SafeAreaView>
+  );
 }
