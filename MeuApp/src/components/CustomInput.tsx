@@ -10,6 +10,7 @@ export interface InputProps {
   secureTextEntry?: boolean;
   keyboardType?: 'default' | 'numeric' | 'phone-pad' | 'email-address' | 'number-pad' | 'decimal-pad';
   editable?: boolean;
+  maxLength?: number;
 }
 
 export const CustomInput: React.FC<InputProps> = ({
@@ -20,6 +21,7 @@ export const CustomInput: React.FC<InputProps> = ({
   secureTextEntry = false,
   keyboardType = 'default',
   editable = true,
+  maxLength,
 }) => {
   return (
     <View style={formStyles.inputContainer}>
@@ -33,6 +35,7 @@ export const CustomInput: React.FC<InputProps> = ({
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         editable={editable}
+        maxLength={maxLength}
       />
     </View>
   );

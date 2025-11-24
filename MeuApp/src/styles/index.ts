@@ -256,18 +256,122 @@ export const userProfileStyles = StyleSheet.create({
 });
 
 export const vehicleStyles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
+  },
+  addButton: {
+    backgroundColor: colors.yellow,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderRadius: borderRadius.sm,
+    ...commonStyles.shadow,
+  },
+  addButtonText: {
+    fontSize: typography.button.fontSize,
+    fontWeight: typography.button.fontWeight,
+    color: colors.black,
+  },
   container: {
     ...screenStyles.container,
   },
   title: {
     ...titleStyles.primary,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: spacing.xxl,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: spacing.xxl,
+  },
+  emptyText: {
+    fontSize: typography.body.fontSize,
+    color: colors.lightText,
+    textAlign: 'center',
+  },
+  listContainer: {
+    flex: 1,
+    marginTop: spacing.lg,
+  },
+  vehicleCard: {
+    backgroundColor: colors.primary,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+    marginBottom: spacing.md,
+    ...commonStyles.shadow,
+  },
+  vehicleName: {
+    fontSize: typography.subtitle.fontSize,
+    fontWeight: typography.subtitle.fontWeight,
+    color: colors.white,
+    marginBottom: spacing.xs,
+  },
+  vehiclePlate: {
+    fontSize: typography.body.fontSize,
+    color: colors.lightText,
+    marginBottom: spacing.xs,
+  },
+  vehicleType: {
+    fontSize: typography.body.fontSize,
+    color: colors.lightText,
+  },
   formContainer: {
     ...formStyles.container,
+  },
+  typeContainer: {
+    marginBottom: spacing.lg,
+    width: '100%',
+  },
+  typeLabel: {
+    color: colors.white,
+    fontSize: typography.input.fontSize,
+    fontWeight: typography.label.fontWeight,
+    marginBottom: spacing.sm,
+  },
+  typeOptions: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    flexWrap: 'wrap',
+  },
+  typeOption: {
+    flex: 1,
+    minWidth: 100,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.md,
+    borderRadius: borderRadius.sm,
+    borderWidth: 2,
+    borderColor: colors.white,
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+  },
+  typeOptionSelected: {
+    backgroundColor: colors.yellow,
+    borderColor: colors.yellow,
+  },
+  typeOptionText: {
+    fontSize: typography.button.fontSize,
+    fontWeight: typography.button.fontWeight,
+    color: colors.white,
+  },
+  typeOptionTextSelected: {
+    color: colors.black,
   },
   saveButton: {
     ...buttonStyles.base,
     ...buttonStyles.tertiary,
+    marginTop: spacing.md,
+  },
+  saveButtonDisabled: {
+    opacity: 0.5,
   },
   saveButtonText: buttonStyles.textWhite,
 });

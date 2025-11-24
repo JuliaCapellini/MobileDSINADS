@@ -15,7 +15,7 @@ export const useLogin = (loginFn: (email: string, password: string) => Promise<v
   const [isLoading, setIsLoading] = useState(false);
 
   const updateField = (field: keyof LoginFormData, value: string): void => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev: LoginFormData) => ({ ...prev, [field]: value }));
   };
 
   const handleLogin = async (): Promise<void> => {

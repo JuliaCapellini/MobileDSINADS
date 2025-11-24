@@ -1,57 +1,81 @@
-import { router } from 'expo-router';
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { router, useFocusEffect } from 'expo-router';
+import React, { useCallback } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { BackButton, CustomInput } from '../src/components';
+import { BackButton } from '../src/components';
 import { commonStyles, vehicleStyles } from '../src/styles';
 import { useVehicle } from '../src/hooks/useVehicle';
+import { VehicleType } from '../src/types';
 
 export default function VehicleScreen() {
-  const { formData, updateField, save } = useVehicle();
+  const { vehicles, isLoading, loadVehicles } = useVehicle();
+
+  // Recarrega os veículos quando a tela recebe foco
+  useFocusEffect(
+    useCallback(() => {
+      loadVehicles();
+    }, [loadVehicles])
+  );
 
   const handleBack = (): void => {
     router.back();
   };
 
+  const handleAddVehicle = (): void => {
+    router.push('/registerVehicle');
+  };
+
+  const getVehicleTypeLabel = (type: VehicleType): string => {
+    switch (type) {
+      case VehicleType.Car:
+        return 'Carro';
+      case VehicleType.Motorcycle:
+        return 'Moto';
+      case VehicleType.Van:
+        return 'Van';
+      default:
+        return 'Desconhecido';
+    }
+  };
+
   return (
     <SafeAreaView style={commonStyles.container}>
-      <BackButton onPress={handleBack} />
+      <View style={vehicleStyles.header}>
+        <BackButton onPress={handleBack} />
+        <TouchableOpacity 
+          style={vehicleStyles.addButton} 
+          onPress={handleAddVehicle}
+        >
+          <Text style={vehicleStyles.addButtonText}>Cadastrar Veículo</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={vehicleStyles.container}>
-        <Text style={vehicleStyles.title}>Cadastrar Veículo</Text>
+        <Text style={vehicleStyles.title}>Meus Veículos</Text>
 
-        <View style={vehicleStyles.formContainer}>
-          <CustomInput
-            label="Nome"
-            placeholder="Digite o nome do veículo"
-            value={formData.nome}
-            onChangeText={(value) => updateField('nome', value)}
-            keyboardType="default"
-          />
-
-          <CustomInput
-            label="Placa"
-            placeholder="Digite a placa do veículo"
-            value={formData.placa}
-            onChangeText={(value) => updateField('placa', value)}
-            keyboardType="default"
-          />
-
-          <CustomInput
-            label="Tipo"
-            placeholder="Digite o tipo do veículo"
-            value={formData.tipo}
-            onChangeText={(value) => updateField('tipo', value)}
-            keyboardType="default"
-          />
-
-          <TouchableOpacity 
-            style={vehicleStyles.saveButton} 
-            onPress={save}
-          >
-            <Text style={vehicleStyles.saveButtonText}>Salvar Veículo</Text>
-          </TouchableOpacity>
-        </View>
+        {isLoading ? (
+          <View style={vehicleStyles.loadingContainer}>
+            <ActivityIndicator size="large" color="#FFD700" />
+          </View>
+        ) : vehicles.length === 0 ? (
+          <View style={vehicleStyles.emptyContainer}>
+            <Text style={vehicleStyles.emptyText}>
+              Nenhum veículo cadastrado ainda.
+            </Text>
+          </View>
+        ) : (
+          <ScrollView style={vehicleStyles.listContainer}>
+            {vehicles.map((vehicle) => (
+              <View key={vehicle.id} style={vehicleStyles.vehicleCard}>
+                <Text style={vehicleStyles.vehicleName}>{vehicle.name}</Text>
+                <Text style={vehicleStyles.vehiclePlate}>Placa: {vehicle.plate}</Text>
+                <Text style={vehicleStyles.vehicleType}>
+                  Tipo: {getVehicleTypeLabel(vehicle.type)}
+                </Text>
+              </View>
+            ))}
+          </ScrollView>
+        )}
       </View>
     </SafeAreaView>
   );
