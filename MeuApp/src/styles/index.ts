@@ -1,11 +1,19 @@
 import { StyleSheet } from 'react-native';
 
+// ========== DESIGN TOKENS ==========
 export const colors = {
   background: 'rgba(56, 69, 77, 1)',
   white: '#FFFFFF',
   black: '#000000',
   yellow: '#FFD700',
   shadow: '#000000',
+  primary: '#617991',
+  secondary: '#7995B0',
+  tertiary: '#CFD8DC',
+  lightGray: '#B0BEC5',
+  darkGray: '#3A3636',
+  error: '#F44336',
+  lightText: '#E0E0E0',
 };
 
 export const spacing = {
@@ -19,27 +27,45 @@ export const spacing = {
 };
 
 export const typography = {
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold' as const,
+  },
+  subtitle: {
+    fontSize: 24,
+    fontWeight: 'bold' as const,
+  },
+  body: {
+    fontSize: 20,
+    fontWeight: '500' as const,
+  },
+  label: {
+    fontSize: 18,
+    fontWeight: '600' as const,
+  },
   button: {
     fontSize: 16,
     fontWeight: '600' as const,
   },
+  small: {
+    fontSize: 14,
+    fontWeight: '400' as const,
+  },
+  input: {
+    fontSize: 16,
+    fontWeight: '400' as const,
+  },
 };
 
-export const iconSizes = {
-  actionButton: 40,
+export const borderRadius = {
+  sm: spacing.sm,
+  md: spacing.md,
+  lg: spacing.lg,
+  round: 30,
+  circle: 70,
 };
 
-export const iconColors = {
-  actionButton: colors.black,
-};
-
-export const buttonVariants = {
-  primary: 'primary',
-  secondary: 'secondary',
-} as const;
-
-export type ButtonVariant = typeof buttonVariants[keyof typeof buttonVariants];
-
+// ========== BASE STYLES (Reutilizáveis) ==========
 export const commonStyles = StyleSheet.create({
   container: {
     flex: 1,
@@ -53,16 +79,137 @@ export const commonStyles = StyleSheet.create({
   },
   shadow: {
     shadowColor: colors.shadow,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
 });
 
+export const formStyles = StyleSheet.create({
+  container: {
+    width: '100%',
+    maxWidth: 300,
+  },
+  inputContainer: {
+    marginBottom: spacing.lg,
+    width: '100%',
+  },
+  inputLabel: {
+    color: colors.white,
+    fontSize: typography.input.fontSize,
+    fontWeight: typography.label.fontWeight,
+    marginBottom: spacing.sm,
+  },
+  input: {
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: colors.white,
+    borderRadius: borderRadius.sm,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.md,
+    color: colors.white,
+    fontSize: typography.input.fontSize,
+  },
+  inputDisabled: {
+    opacity: 0.6,
+  },
+  buttonContainer: {
+    width: '100%',
+    maxWidth: 300,
+  },
+});
+
+export const buttonStyles = StyleSheet.create({
+  base: {
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.xl,
+    borderRadius: borderRadius.sm,
+    alignItems: 'center',
+    ...commonStyles.shadow,
+  },
+  primary: {
+    backgroundColor: colors.yellow,
+  },
+  secondary: {
+    backgroundColor: colors.white,
+  },
+  tertiary: {
+    backgroundColor: colors.primary,
+  },
+  text: {
+    fontSize: typography.button.fontSize,
+    fontWeight: typography.button.fontWeight,
+    color: colors.black,
+  },
+  textWhite: {
+    fontSize: typography.button.fontSize,
+    fontWeight: typography.button.fontWeight,
+    color: colors.white,
+  },
+  disabled: {
+    opacity: 0.5,
+  },
+});
+
+export const titleStyles = StyleSheet.create({
+  primary: {
+    fontSize: typography.title.fontSize,
+    fontWeight: typography.title.fontWeight,
+    color: colors.white,
+    textAlign: 'center',
+    marginBottom: spacing.xl,
+  },
+  secondary: {
+    fontSize: typography.subtitle.fontSize,
+    fontWeight: typography.subtitle.fontWeight,
+    color: colors.white,
+    textAlign: 'center',
+    marginBottom: spacing.lg,
+    marginTop: spacing.md,
+  },
+});
+
+export const cardStyles = StyleSheet.create({
+  container: {
+    marginBottom: spacing.xl,
+    padding: spacing.md,
+    backgroundColor: colors.primary,
+    borderRadius: borderRadius.md,
+  },
+  label: {
+    fontSize: typography.label.fontSize,
+    fontWeight: typography.label.fontWeight,
+    color: colors.black,
+    marginBottom: spacing.xs,
+  },
+  value: {
+    fontSize: typography.body.fontSize,
+    fontWeight: typography.body.fontWeight,
+    color: colors.white,
+  },
+});
+
+export const screenStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xxl,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xxl,
+    paddingBottom: spacing.xl,
+  },
+  contentArea: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+});
+
+// ========== SCREEN-SPECIFIC STYLES ==========
 export const loginStyles = StyleSheet.create({
   logoContainer: {
     marginBottom: spacing.xxxl,
@@ -71,88 +218,196 @@ export const loginStyles = StyleSheet.create({
     width: 200,
     height: 80,
   },
-  buttonsContainer: {
-    width: '100%',
-    maxWidth: 300,
-  },
+  buttonsContainer: formStyles.buttonContainer,
   button: {
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.xl,
-    borderRadius: spacing.sm,
-    marginBottom: spacing.md,
-    alignItems: 'center',
-    ...commonStyles.shadow,
+    ...buttonStyles.base,
   },
   primaryButton: {
-    backgroundColor: colors.yellow,
+    ...buttonStyles.base,
+    ...buttonStyles.primary,
   },
   secondaryButton: {
-    backgroundColor: colors.white,
+    ...buttonStyles.base,
+    ...buttonStyles.secondary,
   },
-  buttonText: {
+  buttonText: buttonStyles.text,
+});
+
+export const registerStyles = StyleSheet.create({
+  content: commonStyles.content,
+  title: titleStyles.primary,
+  formContainer: formStyles.container,
+  buttonContainer: formStyles.buttonContainer,
+});
+
+export const loginFormStyles = StyleSheet.create({
+  content: commonStyles.content,
+  title: titleStyles.primary,
+  formContainer: formStyles.container,
+  buttonContainer: formStyles.buttonContainer,
+});
+
+export const userProfileStyles = StyleSheet.create({
+  scrollContent: screenStyles.scrollContent,
+  title: titleStyles.primary,
+  fieldContainer: cardStyles.container,
+  label: cardStyles.label,
+  value: cardStyles.value,
+});
+
+export const vehicleStyles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
+  },
+  addButton: {
+    backgroundColor: colors.yellow,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderRadius: borderRadius.sm,
+    ...commonStyles.shadow,
+  },
+  addButtonText: {
     fontSize: typography.button.fontSize,
     fontWeight: typography.button.fontWeight,
     color: colors.black,
   },
-});
-
-export const registerStyles = StyleSheet.create({
-  content: {
+  container: {
+    ...screenStyles.container,
+  },
+  title: {
+    ...titleStyles.primary,
+  },
+  loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xxl,
   },
-  title: {
-    color: colors.white,
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: spacing.xl,
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: spacing.xxl,
+  },
+  emptyText: {
+    fontSize: typography.body.fontSize,
+    color: colors.lightText,
     textAlign: 'center',
   },
+  listContainer: {
+    flex: 1,
+    marginTop: spacing.lg,
+  },
+  vehicleCard: {
+    backgroundColor: colors.primary,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+    marginBottom: spacing.md,
+    ...commonStyles.shadow,
+  },
+  vehicleName: {
+    fontSize: typography.subtitle.fontSize,
+    fontWeight: typography.subtitle.fontWeight,
+    color: colors.white,
+    marginBottom: spacing.xs,
+  },
+  vehiclePlate: {
+    fontSize: typography.body.fontSize,
+    color: colors.lightText,
+    marginBottom: spacing.xs,
+  },
+  vehicleType: {
+    fontSize: typography.body.fontSize,
+    color: colors.lightText,
+  },
   formContainer: {
-    width: '100%',
-    maxWidth: 300,
-    marginBottom: spacing.xl,
+    ...formStyles.container,
   },
-  buttonContainer: {
+  typeContainer: {
+    marginBottom: spacing.lg,
     width: '100%',
-    maxWidth: 300,
   },
+  typeLabel: {
+    color: colors.white,
+    fontSize: typography.input.fontSize,
+    fontWeight: typography.label.fontWeight,
+    marginBottom: spacing.sm,
+  },
+  typeOptions: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    flexWrap: 'wrap',
+  },
+  typeOption: {
+    flex: 1,
+    minWidth: 100,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.md,
+    borderRadius: borderRadius.sm,
+    borderWidth: 2,
+    borderColor: colors.white,
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+  },
+  typeOptionSelected: {
+    backgroundColor: colors.yellow,
+    borderColor: colors.yellow,
+  },
+  typeOptionText: {
+    fontSize: typography.button.fontSize,
+    fontWeight: typography.button.fontWeight,
+    color: colors.white,
+  },
+  typeOptionTextSelected: {
+    color: colors.black,
+  },
+  saveButton: {
+    ...buttonStyles.base,
+    ...buttonStyles.tertiary,
+    marginTop: spacing.md,
+  },
+  saveButtonDisabled: {
+    opacity: 0.5,
+  },
+  saveButtonText: buttonStyles.textWhite,
 });
 
-export const loginFormStyles = StyleSheet.create({
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: spacing.lg,
-  },
-  title: {
-    color: colors.white,
-    fontSize: 32,
-    fontWeight: 'bold',
+export const balanceStyles = StyleSheet.create({
+  container: screenStyles.container,
+  title: titleStyles.primary,
+  balanceDisplayContainer: {
+    backgroundColor: colors.tertiary,
+    padding: spacing.xl,
+    borderRadius: borderRadius.md,
     marginBottom: spacing.xxl,
-    textAlign: 'center',
+    alignItems: 'center',
+    ...commonStyles.shadow,
   },
-  formContainer: {
-    width: '100%',
-    maxWidth: 300,
-    marginBottom: spacing.xl,
+  balanceLabel: {
+    fontSize: typography.body.fontSize,
+    color: colors.black,
+    marginBottom: spacing.sm,
+    fontWeight: typography.label.fontWeight,
   },
-  buttonContainer: {
-    width: '100%',
-    maxWidth: 300,
+  balanceValue: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: colors.yellow,
   },
+  sectionTitle: titleStyles.secondary,
+  formContainer: formStyles.container,
+  saveButton: vehicleStyles.saveButton,
+  saveButtonText: vehicleStyles.saveButtonText,
 });
 
 export const profileStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
+  container: commonStyles.container,
   header: {
-    backgroundColor: '#617991',
+    backgroundColor: colors.primary,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: spacing.lg,
@@ -162,8 +417,8 @@ export const profileStyles = StyleSheet.create({
   avatarContainer: {
     width: 100,
     height: 100,
-    borderRadius: 30,
-    backgroundColor: '#B0BEC5',
+    borderRadius: borderRadius.round,
+    backgroundColor: colors.lightGray,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -171,17 +426,17 @@ export const profileStyles = StyleSheet.create({
     flex: 1,
   },
   userLabel: {
-    fontSize: 20,
-    color: '#3A3636',
+    fontSize: typography.body.fontSize,
+    color: colors.darkGray,
     marginBottom: spacing.xs,
   },
   userName: {
     fontSize: 25,
     fontWeight: '600',
-    color: '#000000',
+    color: colors.black,
   },
   userButton: {
-    backgroundColor: '#7995B0',
+    backgroundColor: colors.secondary,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: spacing.lg,
@@ -193,10 +448,7 @@ export const profileStyles = StyleSheet.create({
     color: colors.black,
     fontWeight: '500',
   },
-  contentArea: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
+  contentArea: screenStyles.contentArea,
   logoutButton: {
     backgroundColor: colors.background,
     flexDirection: 'row',
@@ -213,7 +465,7 @@ export const profileStyles = StyleSheet.create({
   },
   navigationBar: {
     flexDirection: 'row',
-    backgroundColor: '#CFD8DC',
+    backgroundColor: colors.tertiary,
     borderTopWidth: 0,
     borderBottomWidth: 0,
     borderLeftWidth: 0,
@@ -234,55 +486,46 @@ export const profileStyles = StyleSheet.create({
     gap: spacing.xs,
   },
   navItemInactive: {
-    backgroundColor: '#617991',
+    backgroundColor: colors.primary,
   },
   navItemActive: {
-    backgroundColor: '#7995B1',
+    backgroundColor: colors.secondary,
   },
   navItemText: {
-    fontSize: 20,
+    fontSize: typography.body.fontSize,
     color: colors.black,
     fontWeight: '500',
   },
 });
 
 export const parkingStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
+  container: commonStyles.container,
   balanceButton: {
     position: 'absolute',
     top: spacing.md,
     right: spacing.lg,
-    backgroundColor: '#617991',
+    backgroundColor: colors.primary,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
-    borderRadius: spacing.md,
+    borderRadius: borderRadius.md,
     gap: spacing.xs,
     zIndex: 10,
     ...commonStyles.shadow,
   },
   balanceText: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: typography.label.fontSize,
+    fontWeight: typography.label.fontWeight,
     color: colors.white,
   },
-  contentArea: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
+  contentArea: screenStyles.contentArea,
 });
 
 export const usoStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
+  container: commonStyles.container,
   header: {
-    backgroundColor: '#CFD8DC',
+    backgroundColor: colors.tertiary,
     height: 150,
     width: '100%',
   },
@@ -293,10 +536,10 @@ export const usoStyles = StyleSheet.create({
     zIndex: 10,
     width: 140,
     height: 140,
-    borderRadius: 70,
+    borderRadius: borderRadius.circle,
     backgroundColor: colors.background,
     borderWidth: 3,
-    borderColor: '#CFD8DC',
+    borderColor: colors.tertiary,
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
@@ -323,8 +566,8 @@ export const usoStyles = StyleSheet.create({
   actionButton: {
     flex: 1,
     minHeight: 120,
-    backgroundColor: '#CFD8DC',
-    borderRadius: spacing.md,
+    backgroundColor: colors.tertiary,
+    borderRadius: borderRadius.md,
     justifyContent: 'center',
     alignItems: 'center',
     padding: spacing.md,
@@ -340,146 +583,6 @@ export const usoStyles = StyleSheet.create({
     color: colors.black,
     textAlign: 'center',
   },
-});
-
-export const usoButtonConfig = {
-  activeOpacity: 0.7,
-  iconSize: iconSizes.actionButton,
-  iconColor: iconColors.actionButton,
-};
-
-export const vehicleStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xxl,
-  },
-
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: colors.white,
-    marginBottom: spacing.xl,
-    textAlign: 'center',
-  },
-
-  formContainer: {
-    width: '100%',
-    maxWidth: 300,
-    marginTop: spacing.xl,
-  },
-
-  saveButton: {
-    backgroundColor: '#617991',
-    paddingVertical: spacing.md,
-    borderRadius: spacing.md,
-    alignItems: 'center',
-    ...commonStyles.shadow,
-  },
-
-  saveButtonText: {
-    fontSize: typography.button.fontSize,
-    fontWeight: typography.button.fontWeight,
-    color: colors.white,
-  },
-});
-
-export const userProfileStyles = StyleSheet.create({
-  scrollContent: {
-    flexGrow: 1,
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xxl,
-    paddingBottom: spacing.xl,
-  },
-
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: colors.white,
-    textAlign: "center",
-    marginBottom: spacing.xxl,
-  },
-
-  fieldContainer: {
-    marginBottom: spacing.xl,
-    padding: spacing.md,
-    backgroundColor: "#617991",
-    borderRadius: spacing.md,
-  },
-
-  label: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: colors.black,
-    marginBottom: spacing.xs,
-  },
-
-  value: {
-    fontSize: 20,
-    fontWeight: "500",
-    color: colors.white,
-  },
-});
-export const balanceStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xxl,
-  },
-
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: colors.white,
-    marginBottom: spacing.xl,
-    textAlign: 'center',
-  },
-
-  balanceDisplayContainer: {
-    backgroundColor: '#CFD8DC',
-    padding: spacing.xl,
-    borderRadius: spacing.md,
-    marginBottom: spacing.xxl,
-    alignItems: 'center',
-    ...commonStyles.shadow,
-  },
-
-  balanceLabel: {
-    fontSize: 20,
-    color: colors.black,
-    marginBottom: spacing.sm,
-    fontWeight: '600',
-  },
-
-  balanceValue: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: colors.yellow,
-  },
-
-
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.white,
-    marginBottom: spacing.lg,
-    textAlign: 'center',
-    marginTop: spacing.md,
-  },
-
-
-  formContainer: {
-    width: '100%',
-    maxWidth: 300,
-    alignSelf: 'center',
-    marginBottom: spacing.xl,
-  },
-
-
-    saveButton: vehicleStyles.saveButton,
-    saveButtonText: vehicleStyles.saveButtonText,
 });
 
 export const parkingMapWebStyles = StyleSheet.create({
@@ -504,23 +607,23 @@ export const parkingMapWebStyles = StyleSheet.create({
     transform: [{ translateX: -50 }, { translateY: -50 }],
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
     padding: spacing.lg,
-    borderRadius: spacing.sm,
+    borderRadius: borderRadius.sm,
     alignItems: 'center',
     gap: spacing.sm,
   },
   loadingText: {
     color: colors.white,
-    fontSize: 16,
+    fontSize: typography.input.fontSize,
   },
   errorText: {
-    color: '#F44336',
-    fontSize: 18,
-    fontWeight: '600',
+    color: colors.error,
+    fontSize: typography.label.fontSize,
+    fontWeight: typography.label.fontWeight,
     textAlign: 'center',
   },
   errorSubtext: {
-    color: '#E0E0E0',
-    fontSize: 14,
+    color: colors.lightText,
+    fontSize: typography.small.fontSize,
     textAlign: 'center',
     marginTop: spacing.sm,
   },
@@ -538,18 +641,18 @@ export const parkingMapNativeStyles = StyleSheet.create({
   },
   loadingText: {
     color: colors.white,
-    fontSize: 16,
+    fontSize: typography.input.fontSize,
     marginTop: spacing.sm,
   },
   errorText: {
-    color: '#F44336',
-    fontSize: 18,
-    fontWeight: '600',
+    color: colors.error,
+    fontSize: typography.label.fontSize,
+    fontWeight: typography.label.fontWeight,
     textAlign: 'center',
   },
   errorSubtext: {
-    color: '#E0E0E0',
-    fontSize: 14,
+    color: colors.lightText,
+    fontSize: typography.small.fontSize,
     textAlign: 'center',
     marginTop: spacing.sm,
   },
@@ -557,3 +660,25 @@ export const parkingMapNativeStyles = StyleSheet.create({
     flex: 1,
   },
 });
+
+// ========== EXPORTS ==========
+export const buttonVariants = {
+  primary: 'primary',
+  secondary: 'secondary',
+} as const;
+
+export type ButtonVariant = typeof buttonVariants[keyof typeof buttonVariants];
+
+export const iconSizes = {
+  actionButton: 40,
+};
+
+export const iconColors = {
+  actionButton: colors.black,
+};
+
+export const usoButtonConfig = {
+  activeOpacity: 0.7,
+  iconSize: iconSizes.actionButton,
+  iconColor: iconColors.actionButton,
+};

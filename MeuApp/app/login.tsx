@@ -1,33 +1,18 @@
 import { router } from 'expo-router';
-import React, { useState } from 'react';
-import { Text, View, Alert } from 'react-native';
+import React from 'react';
+import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton, CustomButton, CustomInput } from '../src/components';
 import { commonStyles, loginFormStyles } from '../src/styles';
-import { authService } from '../src/services/authService';
-import { replace } from 'expo-router/build/global-state/routing';
+import { useAuth } from '../src/context';
+import { useLogin } from '../src/hooks/useLogin';
 
 export default function LoginFormScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { login } = useAuth();
+  const { formData, isLoading, updateField, handleLogin } = useLogin(login);
 
-  const handleBack = () => {
-    console.log('Voltar pressionado');
+  const handleBack = (): void => {
     router.back();
-  };
-
-  const handleLogin = async () => {
-    try {
-      const response = await authService.login({
-        email: email,
-        password: password
-      });
-    await authService.saveToken(response.token);
-
-    router.replace('/parking');
-    } catch (error) {
-      Alert.alert("Erro", "Login falhou. Verifique suas credenciais.");
-    }
   };
 
   return (
@@ -41,16 +26,16 @@ export default function LoginFormScreen() {
           <CustomInput
             label="Email"
             placeholder="Digite seu email"
-            value={email}
-            onChangeText={setEmail}
+            value={formData.email}
+            onChangeText={(value) => updateField('email', value)}
             keyboardType="email-address"
           />
           
           <CustomInput
             label="Senha"
             placeholder="Digite sua senha"
-            value={password}
-            onChangeText={setPassword}
+            value={formData.password}
+            onChangeText={(value) => updateField('password', value)}
             secureTextEntry={true}
           />
         </View>
@@ -60,6 +45,7 @@ export default function LoginFormScreen() {
             title="Entrar"
             onPress={handleLogin}
             variant="primary"
+            disabled={isLoading}
           />
         </View>
       </View>

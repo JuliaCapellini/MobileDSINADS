@@ -1,74 +1,48 @@
-import { router } from "expo-router";
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
-import { BackButton, CustomInput } from "../src/components";
-import { commonStyles, vehicleStyles, balanceStyles } from '../src/styles';
-import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from 'expo-router';
+import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { BackButton, CustomInput } from '../src/components';
+import { commonStyles, balanceStyles } from '../src/styles';
+import { useBalance } from '../src/hooks/useBalance';
 
-export default function Balance() {
-    const [currentBalance, setCurrentBalance] = useState(150.75);
-    
-    const [addAmount, setAddAmount] = useState("");
+export default function BalanceScreen() {
+  const { balance, addAmount, setAddAmount, addBalance, formatCurrency } = useBalance(150.75);
 
-    const handleBack = () => {
-        console.log('Voltar pressionado');
-        router.back();
-    };
+  const handleBack = (): void => {
+    router.back();
+  };
 
-    const handleAddBalance = () => {
-        const amountToAdd = parseFloat(addAmount.replace(',', '.'));
+  return (
+    <SafeAreaView style={commonStyles.container}>
+      <BackButton onPress={handleBack} />
 
-        if (isNaN(amountToAdd) || amountToAdd <= 0) {
-            Alert.alert("Erro", "Por favor, insira um valor válido e maior que zero.");
-            return;
-        }
+      <View style={balanceStyles.container}>
+        <Text style={balanceStyles.title}>💳 Seu Saldo</Text>
+        
+        <View style={balanceStyles.balanceDisplayContainer}>
+          <Text style={balanceStyles.balanceLabel}>Saldo Disponível:</Text>
+          <Text style={balanceStyles.balanceValue}>
+            R$ {formatCurrency(balance)}
+          </Text>
+        </View>
 
-        const newBalance = currentBalance + amountToAdd;
-        setCurrentBalance(parseFloat(newBalance.toFixed(2)));
+        <Text style={balanceStyles.sectionTitle}>Adicionar Saldo</Text>
+        <CustomInput
+          label="Valor a Adicionar"
+          placeholder="Ex: 50,00"
+          value={addAmount}
+          onChangeText={setAddAmount}
+          keyboardType="numeric" 
+        />
 
-        setAddAmount("");
-
-        Alert.alert(
-            "Sucesso", 
-            `R$ ${amountToAdd.toFixed(2).replace('.', ',')} adicionado(s) com sucesso!\nNovo Saldo: R$ ${newBalance.toFixed(2).replace('.', ',')}`
-        );
-
-        console.log(`Saldo atualizado para: R$ ${newBalance.toFixed(2)}`);
-    };
-
-    return (
-        <SafeAreaView style={commonStyles.container}>
-            <BackButton onPress={handleBack} />
-
-            <View style={vehicleStyles.container}>
-                <Text style={vehicleStyles.title}>💳 Seu Saldo</Text>
-                
-                {/* Visualização do Saldo Atual */}
-                <View style={balanceStyles.balanceDisplayContainer}>
-                    <Text style={balanceStyles.balanceLabel}>Saldo Disponível:</Text>
-                    <Text style={balanceStyles.balanceValue}>
-                        R$ {currentBalance.toFixed(2).replace('.', ',')}
-                    </Text>
-                </View>
-
-                {/* Input para Adicionar Saldo */}
-                <Text style={balanceStyles.sectionTitle}>Adicionar Saldo</Text>
-                <CustomInput
-                    label="Valor a Adicionar"
-                    placeholder="Ex: 50,00"
-                    value={addAmount}
-                    onChangeText={setAddAmount}
-                    keyboardType="numeric" 
-                />
-
-                {/* Botão para Adicionar Saldo */}
-                <TouchableOpacity 
-                    style={vehicleStyles.saveButton} 
-                    onPress={handleAddBalance}
-                >
-                    <Text style={vehicleStyles.saveButtonText}>Adicionar ao Saldo</Text>
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
-    );
+        <TouchableOpacity 
+          style={balanceStyles.saveButton} 
+          onPress={addBalance}
+        >
+          <Text style={balanceStyles.saveButtonText}>Adicionar ao Saldo</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
 }

@@ -5,17 +5,20 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { BottomNavigationBar } from '../src/components';
 import { commonStyles, profileStyles } from '../src/styles';
+import { useAuth } from '../src/context';
 
 export default function ProfileScreen() {
-    const userName = 'Nome do Usuário';
+    const { user, logout } = useAuth();
+    const userName = user?.firstName || 'Usuário';
 
     const handleUserButton = () => {
         console.log('Usuario pressionado');
         router.push('/userProfile');
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         console.log('Sair pressionado');
+        await logout();
         router.replace('/');
     };
 

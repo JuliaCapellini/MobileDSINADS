@@ -1,59 +1,59 @@
-import { router } from "expo-router";
-import React, { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
-import { BackButton } from "../src/components";
-import { commonStyles, userProfileStyles } from '../src/styles';
-import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from 'expo-router';
+import React from 'react';
+import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { BackButton } from '../src/components';
+import { commonStyles, userProfileStyles, colors, spacing } from '../src/styles';
+import { useUserProfile } from '../src/hooks/useUserProfile';
 
-export default function UserProfile() {
-    const [fullName, getFullName] = useState('');
-    const [email, getEmail] = useState('');
-    const [phone, getPhone] = useState('');
-    const [birthDate, getBirthDate] = useState('');
-    const [cpf, getCpf] = useState('');
+export default function UserProfileScreen() {
+  const { profile, isLoading } = useUserProfile();
 
-    const handleBack = () => {
-        console.log('Voltar pressionado');
-        router.back();
-    };
+  const handleBack = (): void => {
+    router.back();
+  };
 
-    return (
-        <SafeAreaView style={commonStyles.container}>
-            <BackButton onPress={handleBack} />
+  const renderLoading = (): React.ReactElement => (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: spacing.xl }}>
+      <ActivityIndicator size="large" color={colors.white} />
+    </View>
+  );
 
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                keyboardShouldPersistTaps="handled"
-                contentContainerStyle={{ flexGrow: 1 }}
-            >
-                <Text style={userProfileStyles.title}>Dados Cadastrais</Text>
+  const renderProfile = (): React.ReactElement => (
+    <>
+      <View style={userProfileStyles.fieldContainer}>
+        <Text style={userProfileStyles.label}>Primeiro Nome</Text>
+        <Text style={userProfileStyles.value}>{profile?.firstName || ''}</Text>
+      </View>
 
-                <View style={userProfileStyles.fieldContainer}>
-                    <Text style={userProfileStyles.label}>Nome</Text>
-                    <Text style={userProfileStyles.value}>{fullName}</Text>
-                </View>
+      <View style={userProfileStyles.fieldContainer}>
+        <Text style={userProfileStyles.label}>Último Nome</Text>
+        <Text style={userProfileStyles.value}>{profile?.lastName || ''}</Text>
+      </View>
 
-                <View style={userProfileStyles.fieldContainer}>
-                    <Text style={userProfileStyles.label}>Email</Text>
-                    <Text style={userProfileStyles.value}>{email}</Text>
-                </View>
+      <View style={userProfileStyles.fieldContainer}>
+        <Text style={userProfileStyles.label}>E-mail</Text>
+        <Text style={userProfileStyles.value}>{profile?.email || ''}</Text>
+      </View>
 
-                <View style={userProfileStyles.fieldContainer}>
-                    <Text style={userProfileStyles.label}>Celular</Text>
-                    <Text style={userProfileStyles.value}>{phone}</Text>
-                </View>
+      <View style={userProfileStyles.fieldContainer}>
+        <Text style={userProfileStyles.label}>Telefone</Text>
+        <Text style={userProfileStyles.value}>{profile?.phone || ''}</Text>
+      </View>
+    </>
+  );
 
-                <View style={userProfileStyles.fieldContainer}>
-                    <Text style={userProfileStyles.label}>Data de Nascimento</Text>
-                    <Text style={userProfileStyles.value}>{birthDate}</Text>
-                </View>
-
-                <View style={userProfileStyles.fieldContainer}>
-                    <Text style={userProfileStyles.label}>CPF</Text>
-                    <Text style={userProfileStyles.value}>{cpf}</Text>
-                </View>
-
-            </ScrollView>
-        </SafeAreaView>
-    );
+  return (
+    <SafeAreaView style={commonStyles.container}>
+      <BackButton onPress={handleBack} />
+      
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={userProfileStyles.scrollContent}
+      >
+        <Text style={userProfileStyles.title}>Dados Cadastrais</Text>
+        {isLoading ? renderLoading() : renderProfile()}
+      </ScrollView>
+    </SafeAreaView>
+  );
 }

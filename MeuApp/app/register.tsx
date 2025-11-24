@@ -1,52 +1,19 @@
 import { router } from 'expo-router';
-import React, { useState } from 'react';
-import { Text, View, ScrollView, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import React from 'react';
+import { Text, View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton, CustomButton, CustomInput } from '../src/components';
 import { commonStyles, registerStyles } from '../src/styles';
 import { MESSAGES } from '../src/utils';
-import { authService } from '../src/services/authService';
+import { useAuth } from '../src/context';
+import { useRegister } from '../src/hooks/useRegister';
 
 export default function RegisterScreen() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const { register } = useAuth();
+  const { formData, isLoading, updateField, handleRegister } = useRegister(register);
 
-  const handleBack = () => {
-    console.log('Voltar pressionado');
+  const handleBack = (): void => {
     router.back();
-  };
-
-  const handleContinue = async () => {
-    if (!firstName || !lastName || !email || !phone || !password) {
-      Alert.alert("Erro", "Por favor, preencha todos os campos.");
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-
-      const response = await authService.register({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        phone: phone,
-        password: password,
-      });
-
-      if (response.token) {
-        await authService.saveToken(response.token);
-        router.replace('/parking');
-      }
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || "Náo foi possível completar o registro.";
-      Alert.alert("Erro no registro", errorMessage)
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (
@@ -70,40 +37,40 @@ export default function RegisterScreen() {
               <CustomInput
                 label="Primeiro Nome"
                 placeholder="Digite seu primeiro nome"
-                value={firstName}
-                onChangeText={setFirstName}
+                value={formData.firstName}
+                onChangeText={(value) => updateField('firstName', value)}
                 keyboardType="default"
               />
 
               <CustomInput
                 label="Último Nome"
                 placeholder="Digite seu último nome"
-                value={lastName}
-                onChangeText={setLastName}
+                value={formData.lastName}
+                onChangeText={(value) => updateField('lastName', value)}
                 keyboardType="default"
               />
               
               <CustomInput
                 label="E-mail"
                 placeholder="Digite seu e-mail"
-                value={email}
-                onChangeText={setEmail}
+                value={formData.email}
+                onChangeText={(value) => updateField('email', value)}
                 keyboardType="email-address"
               />
               
               <CustomInput
                 label="Telefone"
                 placeholder="Digite seu telefone"
-                value={phone}
-                onChangeText={setPhone}
+                value={formData.phone}
+                onChangeText={(value) => updateField('phone', value)}
                 keyboardType="phone-pad"
               />
               
               <CustomInput
                 label="Senha"
                 placeholder="Digite sua senha"
-                value={password}
-                onChangeText={setPassword}
+                value={formData.password}
+                onChangeText={(value) => updateField('password', value)}
                 secureTextEntry={true}
               />
             </View>
@@ -111,8 +78,9 @@ export default function RegisterScreen() {
             <View style={registerStyles.buttonContainer}>
               <CustomButton
                 title={MESSAGES.CONTINUE}
-                onPress={handleContinue}
+                onPress={handleRegister}
                 variant="primary"
+                disabled={isLoading}
               />
             </View>
           </View>
