@@ -1,4 +1,5 @@
-export { IAuthService } from './IAuthService';
-export { IDriverService } from './IDriverService';
+export type { IAuthService } from './IAuthService';
+export type { IDriverService } from './IDriverService';
+export type { IDriverService } from './IDriverService';
 
 

@@ -10,7 +10,6 @@ import { VehicleType } from '../src/types';
 export default function VehicleScreen() {
   const { vehicles, isLoading, loadVehicles } = useVehicle();
 
-  // Recarrega os veículos quando a tela recebe foco
   useFocusEffect(
     useCallback(() => {
       loadVehicles();
@@ -42,8 +41,8 @@ export default function VehicleScreen() {
     <SafeAreaView style={commonStyles.container}>
       <View style={vehicleStyles.header}>
         <BackButton onPress={handleBack} />
-        <TouchableOpacity 
-          style={vehicleStyles.addButton} 
+        <TouchableOpacity
+          style={vehicleStyles.addButton}
           onPress={handleAddVehicle}
         >
           <Text style={vehicleStyles.addButtonText}>Cadastrar Veículo</Text>
@@ -66,13 +65,25 @@ export default function VehicleScreen() {
         ) : (
           <ScrollView style={vehicleStyles.listContainer}>
             {vehicles.map((vehicle) => (
-              <View key={vehicle.id} style={vehicleStyles.vehicleCard}>
+              <TouchableOpacity
+                key={vehicle.id}
+                style={vehicleStyles.vehicleCard}
+                onPress={() => router.push({
+                  pathname: '/editVehicle',
+                  params: {
+                    id: vehicle.id,
+                    name: vehicle.name,
+                    plate: vehicle.plate,
+                    type: vehicle.type
+                  }
+                })}
+              >
                 <Text style={vehicleStyles.vehicleName}>{vehicle.name}</Text>
                 <Text style={vehicleStyles.vehiclePlate}>Placa: {vehicle.plate}</Text>
                 <Text style={vehicleStyles.vehicleType}>
                   Tipo: {getVehicleTypeLabel(vehicle.type)}
                 </Text>
-              </View>
+              </TouchableOpacity>
             ))}
           </ScrollView>
         )}

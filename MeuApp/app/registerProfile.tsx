@@ -8,7 +8,7 @@ import { MESSAGES } from '../src/utils';
 import { useAuth } from '../src/context';
 import { useRegister } from '../src/hooks/useRegister';
 
-export default function RegisterScreen() {
+export default function RegisterProfileScreen() {
   const { register } = useAuth();
   const { formData, isLoading, updateField, handleRegister } = useRegister(register);
 
@@ -19,7 +19,7 @@ export default function RegisterScreen() {
   return (
     <SafeAreaView style={commonStyles.container}>
       <BackButton onPress={handleBack} />
-      
+
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
@@ -32,7 +32,7 @@ export default function RegisterScreen() {
         >
           <View style={registerStyles.content}>
             <Text style={registerStyles.title}>{MESSAGES.REGISTER_TITLE}</Text>
-            
+
             <View style={registerStyles.formContainer}>
               <CustomInput
                 label="Primeiro Nome"
@@ -49,7 +49,7 @@ export default function RegisterScreen() {
                 onChangeText={(value) => updateField('lastName', value)}
                 keyboardType="default"
               />
-              
+
               <CustomInput
                 label="E-mail"
                 placeholder="Digite seu e-mail"
@@ -57,7 +57,7 @@ export default function RegisterScreen() {
                 onChangeText={(value) => updateField('email', value)}
                 keyboardType="email-address"
               />
-              
+
               <CustomInput
                 label="Telefone"
                 placeholder="Digite seu telefone"
@@ -65,7 +65,7 @@ export default function RegisterScreen() {
                 onChangeText={(value) => updateField('phone', value)}
                 keyboardType="phone-pad"
               />
-              
+
               <CustomInput
                 label="Senha"
                 placeholder="Digite sua senha"
@@ -74,7 +74,7 @@ export default function RegisterScreen() {
                 secureTextEntry={true}
               />
             </View>
-            
+
             <View style={registerStyles.buttonContainer}>
               <CustomButton
                 title={MESSAGES.CONTINUE}

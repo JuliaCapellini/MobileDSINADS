@@ -62,6 +62,26 @@ export const useVehicle = () => {
     }
   };
 
+  const updateVehicle = async (id: string): Promise<void> => {
+    try {
+      setIsLoading(true);
+      const dto: CreateVehicleDTO = {
+        plate: formData.plate,
+        name: formData.name,
+        type: formData.type,
+      };
+      await vehicleService.update(id, dto);
+      Alert.alert('Sucesso', 'Veículo atualizado com sucesso!');
+      setFormData({ name: '', plate: '', type: VehicleType.Car });
+      await loadVehicles();
+    } catch (error: any) {
+      console.error('Erro ao atualizar veículo:', error);
+      Alert.alert('Erro', error.response?.data?.message || 'Não foi possível atualizar o veículo.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const reset = (): void => {
     setFormData({ name: '', plate: '', type: VehicleType.Car });
   };
@@ -74,6 +94,8 @@ export const useVehicle = () => {
     createVehicle,
     reset,
     loadVehicles,
+    setFormData,
+    updateVehicle,
   };
 };
 

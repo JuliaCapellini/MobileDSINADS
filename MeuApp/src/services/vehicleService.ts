@@ -12,7 +12,8 @@ export const vehicleService = {
         return response.data;
     },
 
-    async delete(id: string): Promise<void> {
-        await api.delete(`/vehicles/${id}`);
-    }
+    async update(id: string, data: CreateVehicleDTO): Promise<Vehicle> {
+        const response = await api.put(`/vehicles/${id}`, data);
+        return response.data;
+    },
 };

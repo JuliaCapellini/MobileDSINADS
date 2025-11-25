@@ -9,7 +9,7 @@ import { APP_CONFIG, MESSAGES } from '../src/utils';
 export default function HomeScreen() {
   const handleCreateAccount = () => {
     console.log(MESSAGES.CREATE_ACCOUNT_PRESSED);
-    router.push('/register');
+    router.push('/registerProfile');
   };
 
   const handleLogin = () => {
@@ -20,7 +20,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={commonStyles.container}>
       <View style={commonStyles.content}>
-        <Logo 
+        <Logo
           source={APP_CONFIG.LOGO_URL}
           width={APP_CONFIG.LOGO_WIDTH}
           height={APP_CONFIG.LOGO_HEIGHT}

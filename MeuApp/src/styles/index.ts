@@ -258,7 +258,7 @@ export const userProfileStyles = StyleSheet.create({
 export const vehicleStyles = StyleSheet.create({
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.md,
@@ -268,6 +268,7 @@ export const vehicleStyles = StyleSheet.create({
     paddingVertical: spacing.sm,
     paddingHorizontal: spacing.md,
     borderRadius: borderRadius.sm,
+    marginTop: spacing.xl,
     ...commonStyles.shadow,
   },
   addButtonText: {
@@ -326,6 +327,7 @@ export const vehicleStyles = StyleSheet.create({
   },
   formContainer: {
     ...formStyles.container,
+    alignSelf: 'center',
   },
   typeContainer: {
     marginBottom: spacing.lg,

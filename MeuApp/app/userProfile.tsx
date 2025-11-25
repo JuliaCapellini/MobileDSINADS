@@ -1,9 +1,9 @@
 import { router } from 'expo-router';
 import React from 'react';
-import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
+import { Text, View, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton } from '../src/components';
-import { commonStyles, userProfileStyles, colors, spacing } from '../src/styles';
+import { commonStyles, userProfileStyles, colors, spacing, vehicleStyles } from '../src/styles';
 import { useUserProfile } from '../src/hooks/useUserProfile';
 
 export default function UserProfileScreen() {
@@ -46,13 +46,33 @@ export default function UserProfileScreen() {
   return (
     <SafeAreaView style={commonStyles.container}>
       <BackButton onPress={handleBack} />
-      
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={userProfileStyles.scrollContent}
       >
         <Text style={userProfileStyles.title}>Dados Cadastrais</Text>
         {isLoading ? renderLoading() : renderProfile()}
+
+        <TouchableOpacity
+          style={[
+            vehicleStyles.addButton,
+            { alignSelf: 'center', marginTop: spacing.xl, width: '90%' }
+          ]}
+          onPress={() => {
+            if (profile) {
+              router.push({
+                pathname: '/editProfile',
+                params: {
+                  email: profile.email,
+                  phone: profile.phone
+                }
+              });
+            }
+          }}
+        >
+          <Text style={[vehicleStyles.addButtonText, { textAlign: 'center' }]}>Editar Perfil</Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );

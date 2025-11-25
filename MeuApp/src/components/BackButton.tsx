@@ -8,8 +8,8 @@ export interface BackButtonProps {
 
 export const BackButton: React.FC<BackButtonProps> = ({ onPress }) => {
   return (
-    <TouchableOpacity 
-      style={styles.container} 
+    <TouchableOpacity
+      style={styles.container}
       onPress={onPress}
       activeOpacity={0.7}
     >
@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: spacing.lg,
     left: spacing.lg,
-    zIndex: 1,
+    zIndex: 10,
+    elevation: 10,
   },
   arrow: {
     color: colors.white,

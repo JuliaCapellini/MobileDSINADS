@@ -9,7 +9,7 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
-        <Stack.Screen name="register" options={{ headerShown: false }} />
+        <Stack.Screen name="registerProfile" options={{ headerShown: false }} />
         <Stack.Screen name="phoneRegister" options={{ headerShown: false }} />
         <Stack.Screen name="parking" options={{ headerShown: false }} />
         <Stack.Screen name="usage" options={{ headerShown: false }} />
@@ -17,6 +17,8 @@ export default function RootLayout() {
         <Stack.Screen name="vehicle" options={{ headerShown: false }} />
         <Stack.Screen name="registerVehicle" options={{ headerShown: false }} />
         <Stack.Screen name="userProfile" options={{ headerShown: false }} />
+        <Stack.Screen name="editProfile" options={{ headerShown: false }} />
+        <Stack.Screen name="editVehicle" options={{ headerShown: false }} />
         <Stack.Screen name="balance" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="light" />
