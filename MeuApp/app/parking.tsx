@@ -1,10 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { BottomNavigationBar, ParkingMap, ParkingArea as MapParkingArea } from '../src/components';
-import { commonStyles, parkingStyles, colors, spacing, borderRadius, typography } from '../src/styles';
+import { commonStyles, parkingStyles } from '../src/styles';
 import { getCurrentLocationNative } from '../src/utils/constants';
 import { isPointInPolygon } from '../src/utils/geoUtils';
 import { parkingAreaService } from '../src/services/parkingAreaService';
@@ -58,7 +57,6 @@ export default function ParkingScreen() {
             });
 
             if (area) {
-                // Navigate to the create screen with the area ID
                 router.push({
                     pathname: '/parking/create',
                     params: { areaId: area.id }
@@ -82,10 +80,10 @@ export default function ParkingScreen() {
                     />
 
                     <TouchableOpacity
-                        style={styles.activateButton}
+                        style={parkingStyles.activateButton}
                         onPress={handleActivateTicket}
                     >
-                        <Text style={styles.activateButtonText}>Ativar Ticket</Text>
+                        <Text style={parkingStyles.activateButtonText}>Ativar Ticket</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -94,25 +92,3 @@ export default function ParkingScreen() {
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    activateButton: {
-        position: 'absolute',
-        bottom: 100,
-        alignSelf: 'center',
-        backgroundColor: colors.yellow,
-        paddingVertical: spacing.md,
-        paddingHorizontal: spacing.xl,
-        borderRadius: borderRadius.round,
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-    },
-    activateButtonText: {
-        fontSize: typography.button.fontSize,
-        fontWeight: 'bold',
-        color: colors.black,
-    },
-});
