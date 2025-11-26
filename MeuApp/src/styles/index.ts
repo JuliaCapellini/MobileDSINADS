@@ -215,7 +215,10 @@ export const loginStyles = StyleSheet.create({
     width: 200,
     height: 80,
   },
-  buttonsContainer: formStyles.buttonContainer,
+  buttonsContainer: {
+    ...formStyles.buttonContainer,
+    gap: spacing.md,
+  },
   button: {
     ...buttonStyles.base,
   },
