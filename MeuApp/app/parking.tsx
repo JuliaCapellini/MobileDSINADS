@@ -1,17 +1,74 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { BottomNavigationBar, ParkingMap, ParkingArea } from '../src/components';
-import { commonStyles, parkingStyles } from '../src/styles';
+import { router } from 'expo-router';
+import { BottomNavigationBar, ParkingMap, ParkingArea as MapParkingArea } from '../src/components';
+import { commonStyles, parkingStyles, colors, spacing, borderRadius, typography } from '../src/styles';
+import { getCurrentLocationNative } from '../src/utils/constants';
+import { isPointInPolygon } from '../src/utils/geoUtils';
+import { parkingAreaService } from '../src/services/parkingAreaService';
+import { showAlert } from '../src/utils/alertUtils';
 
 export default function ParkingScreen() {
-    const [parkingAreas, setParkingAreas] = useState<ParkingArea[]>([]);
+    const [parkingAreas, setParkingAreas] = useState<MapParkingArea[]>([]);
+    const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
 
+    useEffect(() => {
+        loadParkingAreas();
+    }, []);
 
-    const handleAreaSelected = (area: ParkingArea) => {
+    const loadParkingAreas = async () => {
+        try {
+            const areas = await parkingAreaService.getAll();
+            const mapAreas: MapParkingArea[] = areas.map(area => {
+                let coordinates = [];
+                try {
+                    coordinates = JSON.parse(area.mapCoordinates);
+                } catch (e) {
+                    console.error('Error parsing coordinates for area', area.id, e);
+                }
+                return {
+                    id: area.id,
+                    type: 'polygon',
+                    coordinates: coordinates
+                };
+            });
+            setParkingAreas(mapAreas);
+        } catch (error) {
+            console.error('Failed to load parking areas', error);
+            showAlert('Erro', 'Não foi possível carregar as áreas de estacionamento.');
+        }
+    };
+
+    const handleAreaSelected = (area: MapParkingArea) => {
         console.log('Área selecionada:', area);
-        setParkingAreas([...parkingAreas, area]);
+    };
+
+    const handleActivateTicket = async () => {
+        try {
+            const location = await getCurrentLocationNative();
+            setUserLocation(location);
+
+            const area = parkingAreas.find(area => {
+                if (area.type === 'polygon') {
+                    return isPointInPolygon(location, area.coordinates);
+                }
+                return false;
+            });
+
+            if (area) {
+                // Navigate to the create screen with the area ID
+                router.push({
+                    pathname: '/parking/create',
+                    params: { areaId: area.id }
+                } as any);
+            } else {
+                showAlert('Atenção', 'Você não está dentro de uma área de estacionamento válida.');
+            }
+        } catch (error) {
+            showAlert('Erro', 'Não foi possível verificar sua localização.');
+        }
     };
 
     return (
@@ -19,10 +76,17 @@ export default function ParkingScreen() {
             <View style={parkingStyles.container}>
 
                 <View style={parkingStyles.contentArea}>
-                    <ParkingMap 
+                    <ParkingMap
                         onAreaSelected={handleAreaSelected}
                         initialAreas={parkingAreas}
                     />
+
+                    <TouchableOpacity
+                        style={styles.activateButton}
+                        onPress={handleActivateTicket}
+                    >
+                        <Text style={styles.activateButtonText}>Ativar Ticket</Text>
+                    </TouchableOpacity>
                 </View>
 
                 <BottomNavigationBar activeTab="parking" />
@@ -30,3 +94,25 @@ export default function ParkingScreen() {
         </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    activateButton: {
+        position: 'absolute',
+        bottom: 100,
+        alignSelf: 'center',
+        backgroundColor: colors.yellow,
+        paddingVertical: spacing.md,
+        paddingHorizontal: spacing.xl,
+        borderRadius: borderRadius.round,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+    },
+    activateButtonText: {
+        fontSize: typography.button.fontSize,
+        fontWeight: 'bold',
+        color: colors.black,
+    },
+});

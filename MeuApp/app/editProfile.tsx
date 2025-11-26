@@ -35,7 +35,6 @@ export default function EditProfileScreen() {
             await updateProfile();
             router.back();
         } catch (error) {
-            // Error handling is already done in the hook
         }
     };
 

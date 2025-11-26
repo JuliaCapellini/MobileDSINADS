@@ -12,9 +12,9 @@ export default function UsageScreen() {
     router.push('/vehicle');
   };
 
-  const handleMeuSaldo = () => {
-    console.log('Meu Saldo pressionado');
-    router.push('/balance');
+  const handleActiveParkings = () => {
+    console.log('Estacionamentos Ativos pressionado');
+    router.push('/parking/active' as any);
   };
 
   return (
@@ -45,16 +45,16 @@ export default function UsageScreen() {
             </TouchableOpacity>
             <TouchableOpacity
               style={usoStyles.actionButton}
-              onPress={handleMeuSaldo}
+              onPress={handleActiveParkings}
               activeOpacity={usoButtonConfig.activeOpacity}
             >
               <Ionicons
-                name="wallet-outline"
+                name="time-outline"
                 size={usoButtonConfig.iconSize}
                 color={usoButtonConfig.iconColor}
                 style={usoStyles.actionButtonIcon}
               />
-              <Text style={usoStyles.actionButtonText}>Meu Saldo</Text>
+              <Text style={usoStyles.actionButtonText}>Estacionamentos Ativos</Text>
             </TouchableOpacity>
           </View>
         </View>
