@@ -16,7 +16,7 @@ export const parkingAreaService = {
                 }
             });
             return response.data;
-        } catch (error) {
+        } catch (_error) {
             return null;
         }
     },
