@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { BottomNavigationBar, ParkingMap, ParkingArea as MapParkingArea } from '../../src/components';
@@ -42,6 +42,22 @@ export default function ParkingScreen() {
 
     const handleAreaSelected = (area: MapParkingArea) => {
         console.log('Área selecionada:', area);
+        Alert.alert(
+            'Estacionar Aqui',
+            'Deseja ativar um ticket para esta área?',
+            [
+                { text: 'Cancelar', style: 'cancel' },
+                {
+                    text: 'Sim',
+                    onPress: () => {
+                        router.push({
+                            pathname: '/parking/create',
+                            params: { areaId: area.id }
+                        } as any);
+                    }
+                }
+            ]
+        );
     };
 
     const handleActivateTicket = async () => {
