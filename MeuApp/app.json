@@ -11,7 +11,7 @@
     "ios": {
       "supportsTablet": true,
       "config": {
-        "googleMapsApiKey": "AIzaSyB696_kZP-h-JD91q6ceLTKqvM1gAeWFlU"
+        "googleMapsApiKey": "AIza*******************1gAeWFlU"
       },
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Este app precisa da sua localização para mostrar estacionamentos próximos.",
@@ -29,7 +29,7 @@
       "predictiveBackGestureEnabled": false,
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyB696_kZP-h-JD91q6ceLTKqvM1gAeWFlU"
+          "apiKey": "AIza*******************1gAeWFlU"
         }
       },
       "ermissions": [
