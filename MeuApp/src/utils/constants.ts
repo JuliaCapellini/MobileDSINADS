@@ -18,12 +18,12 @@ export const MESSAGES = {
 
 export const MAP_CONFIG = {
   DEFAULT_ZOOM: 15,
-  GOOGLE_MAPS_API_KEY: 'AIzaSyB696_kZP-h-JD91q6ceLTKqvM1gAeWFlU',
+  GOOGLE_MAPS_API_KEY: 'AIzaS***********************************AeWFlU',
 } as const;
 
 export const getCurrentLocationNative = async (): Promise<{ latitude: number; longitude: number }> => {
   const { status } = await Location.requestForegroundPermissionsAsync();
-  
+
   if (status !== 'granted') {
     throw new Error('Permissão de localização negada pelo usuário');
   }
@@ -31,14 +31,14 @@ export const getCurrentLocationNative = async (): Promise<{ latitude: number; lo
   const location = await Location.getCurrentPositionAsync({
     accuracy: Location.Accuracy.Highest,
   });
-  
+
   const coords = {
     latitude: location.coords.latitude,
     longitude: location.coords.longitude,
   };
-  
+
   console.log('Localização obtida:', coords);
-  
+
   return coords;
 };
 
@@ -61,7 +61,7 @@ export const getCurrentLocationWeb = (): Promise<{ lat: number; lng: number }> =
         },
         {
           enableHighAccuracy: true,
-          timeout: 15000, 
+          timeout: 15000,
           maximumAge: 0,
         }
       );
