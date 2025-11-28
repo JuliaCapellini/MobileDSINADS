@@ -21,10 +21,10 @@ export function useParkingMap() {
       const userLocation = await Location.getCurrentPositionAsync({});
       setLocation(userLocation);
 
-      console.log("📍 Buscando áreas na API...");
+      console.log("Buscando áreas na API...");
       const areasData = await parkingAreaService.getAll();
 
-      console.log("📦 Áreas recebidas:", JSON.stringify(areasData, null, 2));
+      console.log("Áreas recebidas:", JSON.stringify(areasData, null, 2));
       setAreas(areasData);
     } catch (error) {
       console.log("Erro ao carregar mapa");

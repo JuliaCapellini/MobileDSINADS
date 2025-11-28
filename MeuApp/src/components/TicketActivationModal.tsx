@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity, ActivityIndicator, Alert, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, ActivityIndicator, Alert, ScrollView } from 'react-native';
 import { Vehicle, VehicleType, Bank, PaymentMethod, CreateParkingDTO } from '../types';
 import { vehicleService } from '../services/vehicleService';
 import { parkingService } from '../services/parkingService';
-import { colors, spacing, typography, borderRadius, commonStyles } from '../styles';
+import { colors, spacing, typography, borderRadius, commonStyles, ticketActivationModalStyles as styles } from '../styles';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -295,98 +295,3 @@ export const TicketActivationModal: React.FC<TicketActivationModalProps> = ({
         </Modal>
     );
 };
-
-const styles = StyleSheet.create({
-    modalOverlay: {
-        flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        justifyContent: 'flex-end',
-    },
-    modalContent: {
-        backgroundColor: colors.background,
-        borderTopLeftRadius: borderRadius.lg,
-        borderTopRightRadius: borderRadius.lg,
-        padding: spacing.lg,
-        height: '80%',
-    },
-    stepContainer: {
-        flex: 1,
-    },
-    closeButton: {
-        alignSelf: 'flex-end',
-        padding: spacing.sm,
-        zIndex: 1,
-    },
-    title: {
-        fontSize: typography.subtitle.fontSize,
-        fontWeight: typography.subtitle.fontWeight,
-        color: colors.white,
-        marginBottom: spacing.lg,
-        textAlign: 'center',
-    },
-    sectionTitle: {
-        fontSize: typography.label.fontSize,
-        fontWeight: typography.label.fontWeight,
-        color: colors.lightText,
-        marginBottom: spacing.sm,
-    },
-    listContainer: {
-        flex: 1,
-        marginBottom: spacing.xl,
-    },
-    optionCard: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: spacing.md,
-        backgroundColor: colors.primary,
-        borderRadius: borderRadius.md,
-        gap: spacing.md,
-        borderWidth: 2,
-        borderColor: 'transparent',
-        marginBottom: spacing.sm,
-    },
-    optionCardSelected: {
-        backgroundColor: colors.yellow,
-        borderColor: colors.yellow,
-    },
-    optionTitle: {
-        fontSize: typography.body.fontSize,
-        fontWeight: 'bold',
-        color: colors.white,
-    },
-    optionSubtitle: {
-        fontSize: typography.small.fontSize,
-        color: colors.lightText,
-    },
-    optionTextSelected: {
-        color: colors.black,
-    },
-    button: {
-        backgroundColor: colors.yellow,
-        padding: spacing.md,
-        borderRadius: borderRadius.sm,
-        alignItems: 'center',
-        flex: 1,
-    },
-    buttonDisabled: {
-        opacity: 0.5,
-    },
-    buttonText: {
-        fontSize: typography.button.fontSize,
-        fontWeight: 'bold',
-        color: colors.black,
-    },
-    buttonRow: {
-        flexDirection: 'row',
-        gap: spacing.md,
-        marginTop: 'auto',
-    },
-    secondaryButton: {
-        backgroundColor: colors.white,
-    },
-    secondaryButtonText: {
-        fontSize: typography.button.fontSize,
-        fontWeight: 'bold',
-        color: colors.black,
-    },
-});
